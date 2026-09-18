@@ -1,30 +1,25 @@
-const CACHE_NAME = 'asawatch-v8';
+// Service worker AsaWatch. Semua path relatif terhadap scope pendaftaran
+// (`self.registration.scope`), supaya pemasangan di sub-path tetap bekerja.
+const CACHE_NAME = 'asawatch-v9';
+const AKAR = new URL('./', self.registration.scope).pathname;
+const r = (p) => AKAR + p;
 
-// Aset yang dipakai berulang: landing, shell aplikasi, dan gaya/logika bersama.
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/css/tokens.css',
-  '/css/landing.css',
-  '/css/main.css',
-  '/ui/css/ui.css',
-  '/ui/login.html',
-  '/ui/dashboard.html',
-  '/js/bluetooth.js',
-  '/ui/js/device.js',
-  '/ui/js/server.js',
-  '/ui/js/shell.js',
-  '/ui/js/store.js',
-  '/ui/js/pages.js',
-  '/js/database.js',
-  '/js/api.js',
-  '/assets/logo/logo2.jpeg'
-];
+  '', 'index.html', 'css/tokens.css', 'css/landing.css', 'css/main.css', 'ui/css/ui.css',
+  'ui/index.html', 'ui/login.html', 'ui/register.html', 'ui/dashboard.html', 'ui/deteksi-makanan.html',
+  'ui/sesi-berjalan.html', 'ui/ringkasan-sesi.html', 'ui/riwayat.html', 'ui/analisis.html',
+  'ui/gula-darah.html', 'ui/detak-jantung.html', 'ui/tensi.html', 'ui/pindai-kesehatan.html',
+  'ui/kalibrasi-tensi.html', 'ui/perangkat.html', 'ui/profil.html', 'ui/bantuan.html',
+  'ui/js/protokol.js', 'ui/js/model.js', 'ui/js/db.js', 'ui/js/server.js', 'ui/js/ble.js',
+  'ui/js/sesi.js', 'ui/js/komponen.js', 'ui/js/kurva.js', 'ui/js/shell.js', 'ui/js/pages.js',
+  'assets/logo/logo2.jpeg',
+].map(r);
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(ASSETS_TO_CACHE))
+      // Satu aset yang gagal tidak boleh menggagalkan pemasangan seluruhnya.
+      .then((cache) => Promise.allSettled(ASSETS_TO_CACHE.map((a) => cache.add(a))))
       .then(() => self.skipWaiting())
   );
 });
@@ -40,55 +35,35 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  const sendiri = url.origin === location.origin;
 
-  // Berkas *-config.js: selalu ambil dari jaringan, jangan pernah dari cache —
-  // isinya berubah begitu alamat backend diganti.
-  if (req.url.includes('-config.js')) {
+  // Permintaan API dan foto bertanda tangan tidak pernah lewat cache.
+  if (!sendiri && !/(jsdelivr|cdnjs|gstatic|googleapis)/.test(url.host)) return;
+  if (sendiri && url.pathname.includes('/api/')) return;
+
+  // Berkas *-config.js: selalu dari jaringan — isinya berubah begitu alamat backend diganti.
+  if (url.pathname.endsWith('-config.js')) {
     event.respondWith(fetch(req).catch(() => caches.match(req)));
     return;
   }
 
-  // Halaman (HTML): utamakan jaringan supaya perubahan landing/aplikasi langsung terlihat,
-  // jatuh ke cache hanya saat offline.
-  if (req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html')) {
+  // Halaman & berkas aplikasi sendiri: utamakan jaringan supaya perubahan kode
+  // langsung terlihat; cache hanya saat offline (fallback terakhir index.html).
+  const navigasi = req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html');
+  if (navigasi || (sendiri && /\.(js|css|html|json)$/.test(url.pathname))) {
     event.respondWith(
       fetch(req)
-        .then((res) => {
-          const salinan = res.clone();
-          caches.open(CACHE_NAME).then((c) => c.put(req, salinan));
-          return res;
-        })
-        .catch(() => caches.match(req).then((r) => r || caches.match('/index.html')))
+        .then((res) => { if (res.ok) { const salinan = res.clone(); caches.open(CACHE_NAME).then((c) => c.put(req, salinan)); } return res; })
+        .catch(() => caches.match(req).then((c) => c || (navigasi ? caches.match(r('index.html')) : undefined)))
     );
     return;
   }
 
-  // Berkas milik aplikasi sendiri (HTML/JS/CSS di domain ini): utamakan jaringan.
-  // Cache-first di sini membuat perubahan kode tidak pernah terlihat sampai versi
-  // cache dinaikkan — gejalanya "kok masih tampilan lama", dan susah ditebak.
-  const sendiri = new URL(req.url).origin === location.origin;
-  if (sendiri && /\.(js|css|html)$/.test(new URL(req.url).pathname)) {
-    event.respondWith(
-      fetch(req)
-        .then((res) => {
-          if (res.ok) {
-            const salinan = res.clone();
-            caches.open(CACHE_NAME).then((c) => c.put(req, salinan));
-          }
-          return res;
-        })
-        .catch(() => caches.match(req))
-    );
-    return;
-  }
-
-  // Sisanya (gambar, font, pustaka dari CDN): cache dulu, jaringan bila belum ada.
+  // Sisanya (gambar, font, pustaka CDN): cache dulu, jaringan bila belum ada.
   event.respondWith(
     caches.match(req).then((cached) => cached || fetch(req).then((res) => {
-      if (res.ok && sendiri) {
-        const salinan = res.clone();
-        caches.open(CACHE_NAME).then((c) => c.put(req, salinan));
-      }
+      if (res.ok) { const salinan = res.clone(); caches.open(CACHE_NAME).then((c) => c.put(req, salinan)); }
       return res;
     }).catch(() => cached))
   );

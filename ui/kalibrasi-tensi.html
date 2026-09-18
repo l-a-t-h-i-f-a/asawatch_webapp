@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#2fa360">
-<title>Foto Makanan · AsaWatch</title>
+<title>Kalibrasi Tensi · AsaWatch</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9200;</text></svg>">
 <link rel="manifest" href="../manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,22 +14,9 @@
 <link rel="stylesheet" href="../css/main.css">
 <link rel="stylesheet" href="css/ui.css">
 </head>
-<body data-page="nutrisi" data-nav="tengah">
+<body data-page="kalibrasi">
 <div id="page-content">
-<div class="page-head"><h2 class="title"><a class="back" href="dashboard.html" aria-label="Kembali"><svg><use href="#i-back"/></svg></a>Foto Makanan</h2></div>
-<div class="grid-2">
-  <div class="card" id="kartuKamera">
-    <div class="shot gelap" id="shotBox">
-      <video id="camView" autoplay playsinline muted class="hidden"></video>
-      <div class="kamera-galat hidden" id="kamGalat"></div>
-    </div>
-    <button class="rana" id="btnRana" disabled aria-label="Ambil foto"><svg><use href="#i-camera"/></svg></button>
-    <p class="muted center" style="margin:.8rem 0 .6rem">Potret piring sebelum makan. Saat rana ditekan, jam langsung mengukur baseline dan tombol "Selesai Makan" di jam menyala.</p>
-    <button class="btn-ghost block" id="btnGaleri"><svg class="bi"><use href="#i-image"/></svg> Pilih dari Galeri</button>
-    <input type="file" id="filePick" accept="image/*" hidden>
-  </div>
-  <div class="card hidden" id="kartuDraft"></div>
-</div>
+<div class="page-head"><h2 class="title"><a class="back" href="tensi.html" aria-label="Kembali"><svg><use href="#i-back"/></svg></a>Kalibrasi Tekanan Darah</h2></div><div id="kalibrasi"></div>
 </div>
 <script src="js/server-config.js"></script>
 <script src="js/protokol.js"></script>

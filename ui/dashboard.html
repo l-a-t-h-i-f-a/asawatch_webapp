@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#2fa360">
 <title>Beranda · AsaWatch</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9200;</text></svg>">
+<link rel="manifest" href="../manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,79 +16,19 @@
 </head>
 <body data-page="beranda">
 <div id="page-content">
-<div class="hero">
-  <div class="hero-txt">
-    <h2>Halo, <span id="heroName">Sahabat</span>! &#128075;</h2>
-    <p>Jaga kesehatanmu hari ini, untuk masa depan yang lebih baik.</p>
-    <a class="btn-primary sm" href="detak-jantung.html">Lihat Detail</a>
-  </div>
-  <div class="hero-art"><svg><use href="#i-leaf"/></svg></div>
-</div>
-
-<div class="metrics">
-  <a class="m-card" href="detak-jantung.html">
-    <div class="ic red"><svg><use href="#i-heart"/></svg></div>
-    <small>Detak Jantung</small><b id="mHr">&mdash; <i>bpm</i></b><span class="tag" id="mHrTag">Belum ada data</span>
-  </a>
-  <a class="m-card" href="gula-darah.html">
-    <div class="ic green"><svg><use href="#i-drop"/></svg></div>
-    <small>Gula Darah</small><b id="mGula">&mdash; <i>mg/dL</i></b><span class="tag" id="mGulaTag">Belum ada data</span>
-  </a>
-  <a class="m-card" href="tensi.html">
-    <div class="ic blue"><svg><use href="#i-gauge"/></svg></div>
-    <small>Tensi</small><b id="mTensi">&mdash; <i>mmHg</i></b><span class="tag" id="mTensiTag">Belum ada data</span>
-  </a>
-  <a class="m-card" href="deteksi-makanan.html">
-    <div class="ic amber"><svg><use href="#i-fire"/></svg></div>
-    <small>Kalori Hari Ini</small><b id="mKal">&mdash; <i>kcal</i></b><span class="tag" id="mKalTag">Belum ada data</span>
-  </a>
-</div>
-
-<div class="grid-2">
-  <div class="card">
-    <div class="card-head"><h3>Data Terakhir (Realtime)</h3><small id="chartStamp">&mdash;</small></div>
-    <div class="chart-box"><canvas id="chartHome"></canvas></div>
-  </div>
-  <div class="card">
-    <div class="card-head"><h3>Status Hari Ini</h3><small class="tag" id="statusBadge">&mdash;</small></div>
-    <ul class="status-list">
-      <li><i class="ic green sm"><svg><use href="#i-activity"/></svg></i><span>Aktivitas</span><b id="sAktif">&mdash;</b></li>
-      <li><i class="ic blue sm"><svg><use href="#i-moon"/></svg></i><span>Tidur</span><b id="sTidur">&mdash;</b></li>
-      <li><i class="ic amber sm"><svg><use href="#i-food"/></svg></i><span>Asupan Makanan</span><b id="sMakan">&mdash;</b></li>
-      <li><i class="ic red sm"><svg><use href="#i-steps"/></svg></i><span>Langkah</span><b id="sLangkah">&mdash;</b></li>
-    </ul>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-head"><h3>Perangkat AsaWatch</h3><span class="tag danger" data-dev="status">Terputus</span></div>
-  <div class="dev-row">
-    <div class="dev-media"><svg><use href="#i-watch"/></svg></div>
-    <div class="dev-info">
-      <b data-dev="nama">AsaWatch X1</b>
-      <small data-dev="meta">&mdash;</small>
-    </div>
-    <div class="dev-btns">
-      <button class="btn-ghost" id="btnConnect">Sambungkan</button>
-      <button class="btn-ghost hidden" id="btnDisconnect">Putuskan</button>
-      <button class="btn-primary sm" id="btnMeasure">Ukur Sekarang</button>
-    </div>
-  </div>
-  <div id="measureBar" class="measure hidden">
-    <div class="bar"><i id="measureFill"></i></div>
-    <small id="measureText">Menyiapkan pengukuran&hellip;</small>
-  </div>
-</div>
+<div id="beranda"></div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script src="../js/database.js"></script>
-<script src="../js/api.js"></script>
-<script src="../js/bluetooth.js"></script>
 <script src="js/server-config.js"></script>
+<script src="js/protokol.js"></script>
+<script src="js/model.js"></script>
+<script src="js/db.js"></script>
 <script src="js/server.js"></script>
+<script src="js/ble.js"></script>
+<script src="js/sesi.js"></script>
+<script src="js/komponen.js"></script>
+<script src="js/kurva.js"></script>
 <script src="js/shell.js"></script>
-<script src="js/store.js"></script>
-<script src="js/device.js"></script>
 <script src="js/pages.js"></script>
 </body>
 </html>

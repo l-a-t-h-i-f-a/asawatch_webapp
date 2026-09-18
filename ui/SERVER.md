@@ -3,7 +3,8 @@
 Webapp memakai **API yang sama dengan aplikasi Android**, jadi datanya masuk ke
 database yang sama dan muncul di panel admin `https://asawatch.enumatechnology.com/admin`.
 
-Kontraknya mengikuti `asawatch_apk/docs/rancangan-api-laravel.md`.
+Kontraknya `asawatch/docs/rancangan-api-laravel.md`; klien di [`js/server.js`](js/server.js)
+(padanan `auth_http_service.dart`, `sesi_server_service.dart`, `profil_server_service.dart`).
 
 ## Alamat backend
 
@@ -11,79 +12,67 @@ Diatur di [`js/server-config.js`](js/server-config.js):
 
 | Kondisi | `basisUrl` |
 |---|---|
-| Dibuka dari `localhost` | `https://asawatch.enumatechnology.com` |
+| Dibuka dari `localhost` | `http://localhost:8080` (Laravel lokal, `php artisan serve --port=8080`) |
 | Dibuka dari domain lain | `''` (kosong = domain halaman itu sendiri) |
 
-Kalau webapp dipasang di domain yang sama dengan API, biarkan kosong — tidak perlu CORS
-sama sekali.
+Kalau webapp dipasang di domain yang sama dengan API, biarkan kosong — tidak perlu CORS.
 
 ## ⚠️ CORS harus dibuka dulu
 
-Server saat ini menolak permintaan dari origin lain. Dicek dengan:
+Server produksi menolak permintaan dari origin lain (`config/cors.php` masih
+`'allowed_origins' => []`). Gejalanya di webapp: "Server tidak bisa dihubungi dari alamat ini".
+Dua cara: buka origin-nya di server (`http://localhost:8080`, domain produksi webapp) lalu
+`php artisan config:clear`, atau pasang webapp same-origin (mis. `/app/`).
 
-```
-curl -i -X OPTIONS -H "Origin: http://localhost:8080" \
-  -H "Access-Control-Request-Method: POST" \
-  https://asawatch.enumatechnology.com/api/v1/auth/masuk
-```
+## Autentikasi
 
-Jawabannya 204 tapi **tanpa header `Access-Control-Allow-Origin`**, karena di
-`asawatch_web/config/cors.php` isinya masih `'allowed_origins' => []`.
+- `POST /auth/masuk` — `email`, `kata_sandi`, `nama_perangkat`. **`galat.kode` dibaca sebelum
+  status HTTP**: kata sandi salah dijawab `422 validasi_gagal`, bukan 401. `tidak_terautentikasi`,
+  `kredensial_salah`, `validasi_gagal` → "kredensial salah"; selain itu → "server bermasalah",
+  tidak pernah "periksa kata sandi". Galat ditampilkan **di atas tombol**, bukan toast.
+- `POST /auth/daftar` — langsung memberi token; `EmailSudahDipakai` dikenali dari `galat.detail.email`.
+- `POST /auth/google` — ID token dari Google Identity Services; `googleClientId` harus sama dengan
+  `GOOGLE_CLIENT_ID` server dan origin webapp terdaftar di Google Cloud Console.
+- `POST /auth/keluar` — dicabut di server dulu, tetap berhasil offline. **Keluar tidak menghapus data.**
+- **401 dari endpoint ber-token mana pun** (kecuali `masuk`) → token dibuang, kembali ke login
+  dengan alasannya ("Sesi Anda sudah berakhir"). 5xx tidak pernah mengeluarkan siapa pun.
 
-Selama itu belum diubah, browser akan memblokir semua permintaan dari webapp dan yang
-terlihat hanya "Tidak bisa terhubung ke server".
+## Sesi makan (§5.2)
 
-Dua cara menyelesaikannya:
+Bentuk JSON sama untuk baca dan tulis: `id`, `waktu_foto`, `t0`, `status` (**snake_case**:
+`draft`, `menunggu_perangkat`, `berjalan`, `selesai`, `tidak_lengkap`, `dibatalkan`),
+`waktu_tidak_pasti`, `sesi_uji`, `sampel[4]` (`index`, `detik_relatif_t0`, `status`,
+`dari_buffer`, lima metrik `null` bila gagal — **bukan 0**), `hasil` (`total`, `makanan[]` dengan
+`urutan`, `zat_tidak_lengkap`, `keyakinan`, `dikoreksi_user`), `diperbarui_pada`.
 
-1. **Buka origin-nya di server** — di `config/cors.php`:
-   ```php
-   'allowed_origins' => [
-       'http://localhost:8080',                  // pengembangan
-       'https://asawatch.enumatechnology.com',   // produksi
-   ],
-   ```
-   lalu `php artisan config:clear` di server.
-
-2. **Pasang webapp di domain yang sama** (mis. `/app/`) sehingga jadi same-origin.
-   Ini cara paling bersih untuk produksi karena CORS tidak ikut bermain.
-
-## Bagaimana data dipetakan
-
-Admin menyimpan data dalam bentuk **sesi makan berisi empat titik ukur**. Webapp
-menyesuaikan diri ke bentuk itu:
-
-| Aksi di webapp | Dikirim sebagai |
+| Kapan | Apa |
 |---|---|
-| Tombol **Ukur Sekarang** | Satu sesi, `status: tidak_lengkap`, nilai di `sampel[1]` (momen t0), tiga titik lain `terlewat` |
-| **Simpan Hasil** di Deteksi Makanan | Satu sesi `status: draft` dengan `hasil.total` berisi angka gizi; fotonya menyusul lewat `POST /sesi/{id}/foto` |
+| Rana ditekan | `PUT /sesi/{id}` draft → `POST /sesi/{id}/foto` (multipart `foto`) → `POST /sesi/{id}/analisis` lalu poll `GET` 2→4→8 s (~1 menit); `gagal` adalah status, bukan HTTP 500 |
+| Tiap titik terisi, t0 masuk, sesi berakhir | `PUT /sesi/{id}` (upsert, idempoten; id UUID dibuat klien) |
+| Buka aplikasi, tab kembali terlihat, setelah masuk | `kirimRiwayatKeServer()`: sapu nisan (`DELETE /sesi/{id}`, 404 = sukses) → PUT semua riwayat → foto untuk sesi yang server bilang belum punya → analisis bila `hasil` masih kosong → unduh |
+| Unduh | `GET /sesi` mengikuti `meta.next_cursor`; lokal tidak ditimpa, sesi berjalan di server dilewati, offset baseline dihitung ulang `waktu_foto − t0`, gagal = `null` |
+| Foto | `foto.url` bertanda tangan (kedaluwarsa 1 jam, terikat host) diunduh **dengan Bearer**; hanya Blob-nya yang disimpan (IndexedDB), URL tidak |
 
-Keduanya ditandai `sesi_uji: true` — penanda pasif: server tetap menyimpan, menampilkan,
-dan mengekspornya, tapi pembaca data bisa membedakannya dari sesi makan sungguhan yang
-punya empat titik lengkap. Matikan lewat `tandaiSesiUji: false` di `server-config.js`.
+`diperbarui_pada` = stempel penulisan lokal (`db.js`), **bukan** waktu kirim — aturan
+"terbaru menang" §7.1. Kiriman yang ditolak dicatat di console dengan status & kepala badan,
+tidak ditampilkan ke pengguna (yang memperbaiki dirinya sendiri tidak perlu peringatan).
 
-Pengiriman bersifat **idempoten**: UUID dibuat di sisi webapp dan endpointnya upsert,
-jadi kiriman ulang tidak menggandakan baris.
+Tanpa akun: sesi tetap utuh di browser; angka gizi diisi manual (`dikoreksi_user: true`).
 
-## Saat jaringan mati
+## Profil (§5.1) & kalibrasi (§5.3)
 
-- Sesi yang gagal terkirim **diantre** di browser, dan halaman tetap menampilkannya.
-- Tombol sinkron di topbar mengirim ulang seluruh antrean.
-- Jumlah antrean terlihat di **Pengaturan Perangkat → Menunggu dikirim**.
-- **Reset Perangkat** hanya membuang salinan lokal; data di server tidak tersentuh.
+`GET/PUT /profil` — semua field boleh `null`; string kosong dikirim `null`; `jenis_kelamin`
+`laki-laki|perempuan` diterjemahkan di satu tempat; PUT menjawab 201 (dicek kelas 2xx). Gagal
+menyimpan ke akun dilaporkan jujur ("tersimpan di browser ini saja").
 
-## Yang belum tersambung
+`POST /kalibrasi` — `waktu`, `sisi`, `sistolik_referensi`, `diastolik_referensi`,
+`sistolik_jam`, `diastolik_jam`; offset dihitung di aplikasi. Dikirim best-effort setelah
+`SET_KALIBRASI` diterima jam.
 
-- **Tujuan Kesehatan** masih disimpan lokal. Endpoint `/target-harian` ada, tapi
-  kontraknya belum final di dokumen rancangan (§5.5 menyebut "boleh dikerjakan paling akhir").
-- **Masuk dengan Google sudah jalan** lewat `POST /api/v1/auth/google` (ditambahkan di
-  backend 6 September 2026). Browser mengambil ID token dari Google Identity Services,
-  server memverifikasinya ke kunci publik Google lalu membalas token Sanctum. Tidak ada
-  rahasia yang disimpan di webapp.
+## Penyimpanan lokal
 
-  **Syaratnya:** `googleClientId` di `js/server-config.js` harus sama dengan
-  `GOOGLE_CLIENT_ID` di server, dan domain webapp harus terdaftar di Google Cloud Console →
-  Credentials → OAuth client → **Authorized JavaScript origins** (termasuk
-  `http://localhost:8080` untuk pengembangan). Kalau belum, tombolnya tidak muncul dan
-  halaman menampilkan catatan kecil sebagai gantinya.
-- Berkas Firebase dipindah ke [`js/_nonaktif/`](js/_nonaktif/) — tidak dimuat lagi,
-  aman dihapus kalau sudah yakin.
+IndexedDB `asawatch`: `sesi` (baris nisan = `dihapusPada` terisi, disaring di `muatSemuaSesi`),
+`foto` (Blob per sesi), `entri_jam` (kotak masuk mentah jam, di-ack hanya setelah tersimpan),
+`anchor` (per `bootId`, milik perangkat keras), `kalibrasi`, `meta` (`seqTerakhir`,
+`bootIdTerakhir`). `localStorage`: token, identitas, pengaturan, id jam, email akun terakhir
+(untuk mendeteksi ganti akun → `hapusDataLokal()` sebelum unggahan pertama).

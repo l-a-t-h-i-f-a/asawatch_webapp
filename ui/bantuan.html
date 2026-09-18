@@ -23,13 +23,28 @@
 </div>
 
 <div class="card">
-  <div class="card-head"><h3>Topik Bantuan</h3></div>
-  <ul class="list">
-    <li><i class="ic green sm"><svg><use href="#i-book"/></svg></i>Cara Menggunakan Aplikasi<svg class="chev"><use href="#i-chev"/></svg></li>
-    <li><i class="ic green sm"><svg><use href="#i-watch"/></svg></i>Menghubungkan Perangkat<svg class="chev"><use href="#i-chev"/></svg></li>
-    <li><i class="ic green sm"><svg><use href="#i-sync"/></svg></i>Masalah Sinkronisasi Data<svg class="chev"><use href="#i-chev"/></svg></li>
-    <li><i class="ic green sm"><svg><use href="#i-chart"/></svg></i>Data Tidak Akurat<svg class="chev"><use href="#i-chev"/></svg></li>
-    <li><i class="ic green sm"><svg><use href="#i-lock"/></svg></i>Kebijakan Privasi Kesehatan<svg class="chev"><use href="#i-chev"/></svg></li>
+  <div class="card-head"><h3>Cara Kerja Sesi Makan</h3></div>
+  <ul class="kv">
+    <li><span><b>1. Foto makanan.</b> Tekan tombol kamera di tengah. Saat rana ditekan, jam langsung mengukur <i>baseline</i> pra-makan dan tombol "Selesai Makan" di jam menyala. Angka gizinya dianalisis server; porsi yang meleset bisa dikoreksi selagi piring masih di depan mata.</span></li>
+    <li><span><b>2. Selesai makan → tekan tombol di jam.</b> Momen itu menjadi titik nol (t0). Tombol "Saya Sudah Selesai Makan" di aplikasi melakukan hal yang sama: jam menekan tombolnya sendiri.</span></li>
+    <li><span><b>3. +1 jam dan +2 jam.</b> Aplikasi menyalakan tombol ukur di jam saat jendelanya terbuka (55–70 menit dan 110–150 menit) dan mengukur otomatis bila tab masih terbuka. Terlalu cepat ditahan; terlalu lambat diterima dan ditandai <i>telat</i>.</span></li>
+    <li><span><b>4. Ringkasan.</b> Puncak, kenaikan dari baseline, waktu pemulihan, dan kurva respons. Sesi yang titiknya terlewat disimpan sebagai <i>tidak lengkap</i>, bukan gagal — jam menyimpan sampel di buffer dan bisa mengirimnya belakangan.</span></li>
+  </ul>
+</div>
+<div class="card">
+  <div class="card-head"><h3>Menghubungkan Jam</h3></div>
+  <ul class="kv">
+    <li><span>Buka <b>Perangkat</b> → <b>Cari Jam AsaWatch</b>. Browser menampilkan pemilih; hanya jam AsaWatch yang dicari. Web Bluetooth tersedia di Chrome/Edge lewat HTTPS.</span></li>
+    <li><span>Jam tidak punya jam dinding. Setiap kali tersambung, aplikasi mengirim jangkar waktu — jadi koneksi yang sering justru baik.</span></li>
+    <li><span>Bila jam terputus, sesi tidak berhenti: sampel menunggu di buffer jam dan menyusul saat tersambung lagi.</span></li>
+    <li><span>Di bawah baterai 10% jam menolak mengukur; isi daya dulu.</span></li>
+  </ul>
+</div>
+<div class="card">
+  <div class="card-head"><h3>Keterbatasan Versi Web</h3></div>
+  <ul class="kv">
+    <li><span>Tidak ada proses latar: pengingat dan pengukuran otomatis hanya berjalan selagi tab AsaWatch terbuka. Jadwal selalu dihitung ulang dari t0 saat halaman dibuka lagi.</span></li>
+    <li><span>Data tersimpan di browser ini lebih dulu (IndexedDB) dan disinkronkan ke akun saat online. Masuk dengan akun lain membersihkan data lokal milik akun sebelumnya.</span></li>
   </ul>
 </div>
 
@@ -42,19 +57,17 @@
   </div>
 </div>
 
-<div class="card guide">
-  <div><b>Panduan Penggunaan</b><small>Lihat panduan lengkap aplikasi</small></div>
-  <span class="ic green sm"><svg><use href="#i-book"/></svg></span>
 </div>
-</div>
-<script src="../js/database.js"></script>
-<script src="../js/api.js"></script>
-<script src="../js/bluetooth.js"></script>
 <script src="js/server-config.js"></script>
+<script src="js/protokol.js"></script>
+<script src="js/model.js"></script>
+<script src="js/db.js"></script>
 <script src="js/server.js"></script>
+<script src="js/ble.js"></script>
+<script src="js/sesi.js"></script>
+<script src="js/komponen.js"></script>
+<script src="js/kurva.js"></script>
 <script src="js/shell.js"></script>
-<script src="js/store.js"></script>
-<script src="js/device.js"></script>
 <script src="js/pages.js"></script>
 </body>
 </html>

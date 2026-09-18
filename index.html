@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#2fa360">
 <title>AsaWatch — Pantau Kesehatanmu, Hidup Lebih Sehat</title>
-<meta name="description" content="AsaWatch memantau detak jantung, gula darah, tekanan darah, dan asupan nutrisi dari smartwatch-mu, lalu merangkumnya jadi tren yang mudah dibaca.">
+<meta name="description" content="AsaWatch memantau respons gula darah terhadap makanan: foto makanan, tombol di jam saat selesai makan, empat titik ukur, satu ringkasan per sesi.">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌚</text></svg>">
 <meta property="og:type" content="website">
 <meta property="og:title" content="AsaWatch — Pantau Kesehatanmu, Hidup Lebih Sehat">
-<meta property="og:description" content="Pantau detak jantung, gula darah, tensi, dan nutrisi harian dari satu dashboard.">
+<meta property="og:description" content="Foto makanan, tekan tombol di jam, dan lihat respons gula darahmu per sesi makan.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -65,8 +65,8 @@
     <div>
       <span class="eyebrow"><svg><use href="#i-spark"/></svg> Pendamping smartwatch AsaWatch</span>
       <h1>Pantau Kesehatanmu,<br><em>Hidup Lebih Sehat</em></h1>
-      <p class="lead">Detak jantung, gula darah, tekanan darah, dan asupan nutrisi harian —
-        terbaca langsung dari jam tanganmu, lalu dirangkum jadi tren yang gampang dimengerti.</p>
+      <p class="lead">Foto makananmu, tekan tombol di jam saat selesai makan, dan biarkan AsaWatch mengukur
+        gula darah, detak jantung, tensi, dan SpO₂ pada empat titik — lalu merangkumnya jadi satu sesi yang gampang dimengerti.</p>
       <div class="hero-cta">
         <a class="btn btn-pri btn-lg" href="ui/login.html" data-mulai>Mulai <svg><use href="#i-arrow"/></svg></a>
         <a class="btn btn-out btn-lg" href="#fitur">Lihat Fitur</a>
@@ -123,40 +123,40 @@
 <section class="sec" id="fitur">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Semua yang perlu dipantau, dalam satu layar</h2>
-      <p>AsaWatch membaca sensor jam tanganmu dan menyusunnya jadi angka yang berarti — bukan sekadar grafik.</p>
+      <h2>Satu sesi makan, satu cerita lengkap</h2>
+      <p>AsaWatch tidak memantau terus-menerus. Ia mengukur di saat yang berarti: sebelum makan, saat selesai makan, +1 jam, dan +2 jam.</p>
     </div>
 
     <div class="feats">
       <article class="feat">
         <div class="ic red"><svg><use href="#i-heart"/></svg></div>
         <h3>Detak Jantung</h3>
-        <p>Pantau denyut sepanjang hari, lengkap dengan nilai tertinggi, terendah, dan rata-ratanya.</p>
+        <p>Terukur di setiap titik sesi bersama metrik lain — satu paket dari jam, tanpa permintaan tambahan.</p>
       </article>
       <article class="feat">
         <div class="ic green"><svg><use href="#i-drop"/></svg></div>
         <h3>Gula Darah</h3>
-        <p>Catat kadar gula sebelum dan sesudah makan untuk melihat responss tubuh terhadap menu harianmu.</p>
+        <p>Baseline, puncak, kenaikan, dan waktu pemulihan — respons tubuhmu terhadap tiap makanan, bukan angka lepas.</p>
       </article>
       <article class="feat">
         <div class="ic blue"><svg><use href="#i-gauge"/></svg></div>
         <h3>Tekanan Darah</h3>
-        <p>Sistolik dan diastolik terekam otomatis, dengan penanda saat angkanya keluar dari rentang normal.</p>
+        <p>Sistolik dan diastolik di tiap titik, plus kalibrasi dengan tensimeter agar angka jam bisa dipercaya.</p>
       </article>
       <article class="feat">
         <div class="ic amber"><svg><use href="#i-food"/></svg></div>
         <h3>Nutrisi Makanan</h3>
-        <p>Foto piringmu, catat kalori dan makronya, lalu lihat kaitannya dengan gula darah setelah makan.</p>
+        <p>Foto piringmu dianalisis jadi kalori, karbohidrat, gula, dan serat; koreksi porsinya selagi piring masih di depan mata.</p>
       </article>
       <article class="feat">
         <div class="ic cyan"><svg><use href="#i-chart"/></svg></div>
-        <h3>Laporan Realtime</h3>
-        <p>Grafik tren harian yang langsung diperbarui tiap kali jam tanganmu mengirim data baru.</p>
+        <h3>Analisis Lintas Sesi</h3>
+        <p>Karbohidrat vs kenaikan gula darah, makanan pemicu lonjakan, dan apakah pemulihanmu membaik dari waktu ke waktu.</p>
       </article>
       <article class="feat">
         <div class="ic violet"><svg><use href="#i-shield"/></svg></div>
         <h3>Data Milikmu</h3>
-        <p>Semua catatan disimpan di perangkat sendiri dan baru dikirim ke server saat kamu memilih sinkron.</p>
+        <p>Semua sesi tersimpan di perangkatmu lebih dulu dan disinkronkan ke akun saat online — tetap utuh tanpa sinyal.</p>
       </article>
     </div>
   </div>
@@ -166,22 +166,22 @@
 <section class="sec alt" id="cara-kerja">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Tiga langkah, selesai</h2>
-      <p>Tidak perlu pengaturan rumit. Sambungkan jam tanganmu, sisanya berjalan sendiri.</p>
+      <h2>Tiga langkah tiap makan</h2>
+      <p>Tidak perlu pengaturan rumit. Sambungkan jam sekali, lalu ulangi tiga langkah ini setiap kali makan.</p>
     </div>
 
     <div class="steps">
       <article class="step">
-        <h3>Sambungkan jam</h3>
-        <p>Buka dashboard, tekan “Sambungkan”, lalu pilih AsaWatch dari daftar perangkat Bluetooth.</p>
+        <h3>Foto makanan</h3>
+        <p>Tekan tombol kamera. Jam langsung mengukur baseline pra-makan dan tombol “Selesai Makan” di jam menyala.</p>
       </article>
       <article class="step">
-        <h3>Ukur &amp; catat</h3>
-        <p>Jam tangan mengukur sendiri tiap dua jam. Butuh angka sekarang? Tekan “Ukur Sekarang”.</p>
+        <h3>Tekan tombol di jam</h3>
+        <p>Selesai makan, tekan tombolnya — itulah titik nol sesi. Jam lalu mengukur lagi pada +1 jam dan +2 jam.</p>
       </article>
       <article class="step">
-        <h3>Pantau trennya</h3>
-        <p>Lihat ringkasan harian, telusuri riwayat per parameter, dan tetapkan tujuan kesehatanmu.</p>
+        <h3>Baca ringkasannya</h3>
+        <p>Puncak, kenaikan dari baseline, waktu pemulihan, dan kaitannya dengan makanan yang kamu foto.</p>
       </article>
     </div>
   </div>
@@ -191,12 +191,12 @@
 <section class="sec" id="aplikasi">
   <div class="wrap preview">
     <div>
-      <h2 style="font-size:2rem;font-weight:800;letter-spacing:-.025em;line-height:1.2">Dashboard yang enak dibaca setiap pagi</h2>
-      <p style="margin-top:.8rem;color:var(--txt2)">Satu layar merangkum kondisimu hari ini, tanpa harus menerjemahkan angka mentah sensor.</p>
+      <h2 style="font-size:2rem;font-weight:800;letter-spacing:-.025em;line-height:1.2">Beranda yang menjawab “sesiku sampai mana”</h2>
+      <p style="margin-top:.8rem;color:var(--txt2)">Bukan angka “sekarang” yang basi — melainkan status sesi, hitung mundur ke titik berikutnya, dan hasil sesi yang baru selesai.</p>
       <ul>
-        <li><svg><use href="#i-check"/></svg> Kartu ringkas untuk tiap parameter, lengkap dengan status normal atau perlu dicek</li>
-        <li><svg><use href="#i-check"/></svg> Halaman detail per parameter: grafik tren, statistik, dan tabel riwayat</li>
-        <li><svg><use href="#i-check"/></svg> Tujuan kesehatan dengan progres yang bisa kamu atur sendiri</li>
+        <li><svg><use href="#i-check"/></svg> Timeline empat titik ukur dengan hitung mundur; titik yang belum ada ditulis “—”, bukan nilai lama</li>
+        <li><svg><use href="#i-check"/></svg> Riwayat per sesi makan, dikelompokkan per hari dan disaring per waktu makan atau kualitas respons</li>
+        <li><svg><use href="#i-check"/></svg> Pindai kesehatan kapan saja di luar sesi, tanpa mencemari analisis</li>
         <li><svg><use href="#i-check"/></svg> Bisa dipasang sebagai aplikasi di ponsel maupun desktop</li>
       </ul>
       <div class="hero-cta">
