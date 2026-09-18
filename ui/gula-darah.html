@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2fa360">
+<title>Gula Darah · AsaWatch</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9200;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="css/ui.css">
+</head>
+<body data-page="kesehatan" data-metric="gula" data-nav="kesehatan">
+<div id="page-content">
+<div class="page-head">
+  <h2 class="title"><a class="back" href="dashboard.html" aria-label="Kembali"><svg><use href="#i-back"/></svg></a>Gula Darah</h2>
+  <nav class="metric-tabs">
+    <a href="detak-jantung.html" class="">Detak Jantung</a>
+    <a href="gula-darah.html" class="active">Gula Darah</a>
+    <a href="tensi.html" class="">Tensi</a>
+  </nav>
+</div>
+
+<div class="detail-top">
+  <div class="card wide">
+    <div class="detail-read">
+      <div class="ic green lg"><svg><use href="#i-drop"/></svg></div>
+      <div><b id="dValue">&mdash; mg/dL</b><small id="dSub">Belum ada pengukuran</small></div>
+      <span class="tag" id="dTag">Belum ada data</span>
+    </div>
+    <div class="chart-box"><canvas id="chartDetail"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><h3>Statistik</h3></div>
+    <ul class="kv">
+      <li><span>Tertinggi</span><b id="stMax">&mdash;</b></li>
+      <li><span>Terendah</span><b id="stMin">&mdash;</b></li>
+      <li><span>Rata-rata</span><b id="stAvg">&mdash;</b></li>
+      <li><span>Jumlah sampel</span><b id="stN">0</b></li>
+    </ul>
+    <div class="stat-art"><svg><use href="#i-pulse"/></svg></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Riwayat Gula Darah</h3><small>Rentang normal 70&ndash;140 mg/dL</small></div>
+  <div class="table-wrap">
+    <table class="tbl">
+      <thead><tr><th>Waktu</th><th>Gula Darah</th><th>Status</th></tr></thead>
+      <tbody id="tbDetail"><tr><td colspan="3" class="empty">Memuat&hellip;</td></tr></tbody>
+    </table>
+  </div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="../js/database.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/bluetooth.js"></script>
+<script src="js/server-config.js"></script>
+<script src="js/server.js"></script>
+<script src="js/shell.js"></script>
+<script src="js/store.js"></script>
+<script src="js/device.js"></script>
+<script src="js/pages.js"></script>
+</body>
+</html>

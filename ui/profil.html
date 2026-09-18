@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2fa360">
+<title>Profil · AsaWatch</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9200;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="css/ui.css">
+</head>
+<body data-page="profil">
+<div id="page-content">
+<div class="page-head"><h2 class="title">Profil</h2></div>
+<div class="card prof">
+  <div class="prof-head">
+    <div class="avatar lg" data-user="inisial">A</div>
+    <div><h3 data-user="nama">Pengguna</h3><small data-user="email">&mdash;</small></div>
+    <button class="btn-ghost sm" id="btnEditProf"><svg class="bi"><use href="#i-edit"/></svg> Edit</button>
+  </div>
+  <ul class="list">
+    <li><i class="ic green sm"><svg><use href="#i-user"/></svg></i>Informasi Pribadi<svg class="chev"><use href="#i-chev"/></svg></li>
+    <li onclick="location.href='pengaturan-perangkat.html'"><i class="ic green sm"><svg><use href="#i-settings"/></svg></i>Pengaturan Perangkat<svg class="chev"><use href="#i-chev"/></svg></li>
+    <li><i class="ic green sm"><svg><use href="#i-bell"/></svg></i>Pengingat Kesehatan<svg class="chev"><use href="#i-chev"/></svg></li>
+    <li onclick="location.href='tujuan-kesehatan.html'"><i class="ic green sm"><svg><use href="#i-target"/></svg></i>Tujuan Kesehatan<svg class="chev"><use href="#i-chev"/></svg></li>
+    <li onclick="location.href='bantuan.html'"><i class="ic green sm"><svg><use href="#i-headset"/></svg></i>Bantuan &amp; Dukungan<svg class="chev"><use href="#i-chev"/></svg></li>
+    <li><i class="ic green sm"><svg><use href="#i-info"/></svg></i>Tentang Aplikasi<svg class="chev"><use href="#i-chev"/></svg></li>
+  </ul>
+  <button class="btn-ghost block danger" id="btnLogout"><svg class="bi"><use href="#i-logout"/></svg> Keluar</button>
+</div>
+</div>
+<script src="../js/database.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/bluetooth.js"></script>
+<script src="js/server-config.js"></script>
+<script src="js/server.js"></script>
+<script src="js/shell.js"></script>
+<script src="js/store.js"></script>
+<script src="js/device.js"></script>
+<script src="js/pages.js"></script>
+</body>
+</html>

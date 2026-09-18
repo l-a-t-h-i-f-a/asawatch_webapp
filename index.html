@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2fa360">
+<title>AsaWatch — Pantau Kesehatanmu, Hidup Lebih Sehat</title>
+<meta name="description" content="AsaWatch memantau detak jantung, gula darah, tekanan darah, dan asupan nutrisi dari smartwatch-mu, lalu merangkumnya jadi tren yang mudah dibaca.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌚</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AsaWatch — Pantau Kesehatanmu, Hidup Lebih Sehat">
+<meta property="og:description" content="Pantau detak jantung, gula darah, tensi, dan nutrisi harian dari satu dashboard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+
+<!-- ============ IKON ============ -->
+<svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-heartbeat" viewBox="0 0 24 24"><path d="M20.8 6.2a4.6 4.6 0 0 0-6.6 0L12 8.4l-2.2-2.2a4.6 4.6 0 0 0-6.6 6.6l1 1h3.3l1.3-2.6 2.2 5.2 1.7-3.4h3.5l1.6-1.6a4.6 4.6 0 0 0 0-6.6Z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5 4.2 13a4.9 4.9 0 0 1 0-7 4.6 4.6 0 0 1 6.6 0l1.2 1.2 1.2-1.2a4.6 4.6 0 0 1 6.6 0 4.9 4.9 0 0 1 0 7Z"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3.2s6 6.1 6 10a6 6 0 1 1-12 0c0-3.9 6-10 6-10Z"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-5"/></symbol>
+  <symbol id="i-food" viewBox="0 0 24 24"><path d="M6 3v8a2.5 2.5 0 0 0 5 0V3"/><path d="M8.5 11v10"/><path d="M17.5 3c-1.4 1.6-2 3.4-2 5.5 0 1.6.7 2.8 2 3.5v9"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-4M12.5 16V8M17 16v-6"/></symbol>
+  <symbol id="i-watch" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="4"/><path d="M9 6V3h6v3M9 18v3h6v-3"/><path d="M12 10v2.4l1.6 1"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.2 5 6v6c0 4.2 2.9 7.4 7 8.8 4.1-1.4 7-4.6 7-8.8V6Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><path d="m8.5 12 2.4 2.4 4.6-4.8"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C9 4 4 9 4 15.5c0 2 .8 3.6.8 3.6S8 10 18 7c0 0-7.5 3.6-9.8 12 6.6 1.5 11.8-2.4 11.8-15Z"/></symbol>
+  <symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-13.7 5.6"/><path d="M4 12a8 8 0 0 1 13.7-5.6"/><path d="M17.5 3v3.6h-3.6M6.5 21v-3.6h3.6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6.5 10a5.5 5.5 0 0 1 11 0c0 4 1.5 5.5 1.5 5.5H5S6.5 14 6.5 10Z"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.5 13.8 9l5.7 1.8-5.7 1.8L12 20.5l-1.8-5.9L4.5 10.8 10.2 9Z"/></symbol>
+</svg>
+
+<!-- ============ NAVBAR ============ -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="index.html">
+      <span class="mark"><svg><use href="#i-heartbeat"/></svg></span> AsaWatch
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#fitur">Fitur</a>
+      <a href="#cara-kerja">Cara Kerja</a>
+      <a href="#aplikasi">Aplikasi</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-out btn-sm" href="ui/login.html" id="navMasuk">Masuk</a>
+      <a class="btn btn-pri btn-sm" href="ui/login.html" data-mulai>Mulai</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><svg><use href="#i-spark"/></svg> Pendamping smartwatch AsaWatch</span>
+      <h1>Pantau Kesehatanmu,<br><em>Hidup Lebih Sehat</em></h1>
+      <p class="lead">Detak jantung, gula darah, tekanan darah, dan asupan nutrisi harian —
+        terbaca langsung dari jam tanganmu, lalu dirangkum jadi tren yang gampang dimengerti.</p>
+      <div class="hero-cta">
+        <a class="btn btn-pri btn-lg" href="ui/login.html" data-mulai>Mulai <svg><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-out btn-lg" href="#fitur">Lihat Fitur</a>
+      </div>
+      <p class="hero-note">Gratis dipakai · Data tersimpan di perangkatmu · Tanpa kartu kredit</p>
+    </div>
+
+    <div class="hero-visual">
+      <span class="glow"></span>
+      <svg class="device" viewBox="0 0 320 210" aria-label="Ilustrasi jam tangan dan ponsel AsaWatch">
+        <ellipse cx="160" cy="198" rx="118" ry="11" fill="rgba(16,42,28,.10)"/>
+        <rect x="176" y="24" width="112" height="170" rx="18" fill="#12321f"/>
+        <rect x="181" y="29" width="102" height="160" rx="14" fill="#f4fbf6"/>
+        <rect x="191" y="40" width="82" height="26" rx="8" fill="#2fa360" opacity=".18"/>
+        <rect x="191" y="72" width="38" height="34" rx="8" fill="#2fa360" opacity=".30"/>
+        <rect x="235" y="72" width="38" height="34" rx="8" fill="#2fa360" opacity=".18"/>
+        <rect x="191" y="112" width="82" height="46" rx="10" fill="#fff" stroke="#2fa360" stroke-opacity=".3"/>
+        <path d="M197 142l10-10 9 7 10-14 9 11 10-8 12 6" fill="none" stroke="#2fa360" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="191" y="164" width="82" height="14" rx="7" fill="#2fa360" opacity=".25"/>
+        <rect x="52" y="18" width="56" height="62" rx="22" fill="#6b7d73"/>
+        <rect x="52" y="130" width="56" height="62" rx="22" fill="#6b7d73"/>
+        <circle cx="80" cy="105" r="52" fill="#255142"/>
+        <circle cx="80" cy="105" r="45" fill="#0f2a20"/>
+        <circle cx="80" cy="105" r="39" fill="#143a2b"/>
+        <path d="M60 110l9-9 8 7 9-13 8 10 9-7 10 6" fill="none" stroke="#6ee7a0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="80" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="#eafff2" font-family="Plus Jakarta Sans, sans-serif">78 bpm</text>
+        <text x="80" y="134" text-anchor="middle" font-size="10" fill="#8fd7b0" font-family="Plus Jakarta Sans, sans-serif">AsaWatch</text>
+        <circle cx="133" cy="95" r="4" fill="#cfd8d3"/>
+      </svg>
+
+      <div class="float f1">
+        <span class="ic red"><svg><use href="#i-heart"/></svg></span>
+        <span><b>78 bpm</b><small>Detak jantung normal</small></span>
+      </div>
+      <div class="float f2">
+        <span class="ic green"><svg><use href="#i-drop"/></svg></span>
+        <span><b>112 mg/dL</b><small>Gula darah terkontrol</small></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STRIP ANGKA ============ -->
+<section class="strip">
+  <div class="wrap">
+    <div><b>4</b><small>Parameter dipantau</small></div>
+    <div><b>2 jam</b><small>Interval pencatatan</small></div>
+    <div><b>100%</b><small>Data di perangkatmu</small></div>
+    <div><b>Offline</b><small>Tetap jalan tanpa internet</small></div>
+  </div>
+</section>
+
+<!-- ============ FITUR ============ -->
+<section class="sec" id="fitur">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Semua yang perlu dipantau, dalam satu layar</h2>
+      <p>AsaWatch membaca sensor jam tanganmu dan menyusunnya jadi angka yang berarti — bukan sekadar grafik.</p>
+    </div>
+
+    <div class="feats">
+      <article class="feat">
+        <div class="ic red"><svg><use href="#i-heart"/></svg></div>
+        <h3>Detak Jantung</h3>
+        <p>Pantau denyut sepanjang hari, lengkap dengan nilai tertinggi, terendah, dan rata-ratanya.</p>
+      </article>
+      <article class="feat">
+        <div class="ic green"><svg><use href="#i-drop"/></svg></div>
+        <h3>Gula Darah</h3>
+        <p>Catat kadar gula sebelum dan sesudah makan untuk melihat responss tubuh terhadap menu harianmu.</p>
+      </article>
+      <article class="feat">
+        <div class="ic blue"><svg><use href="#i-gauge"/></svg></div>
+        <h3>Tekanan Darah</h3>
+        <p>Sistolik dan diastolik terekam otomatis, dengan penanda saat angkanya keluar dari rentang normal.</p>
+      </article>
+      <article class="feat">
+        <div class="ic amber"><svg><use href="#i-food"/></svg></div>
+        <h3>Nutrisi Makanan</h3>
+        <p>Foto piringmu, catat kalori dan makronya, lalu lihat kaitannya dengan gula darah setelah makan.</p>
+      </article>
+      <article class="feat">
+        <div class="ic cyan"><svg><use href="#i-chart"/></svg></div>
+        <h3>Laporan Realtime</h3>
+        <p>Grafik tren harian yang langsung diperbarui tiap kali jam tanganmu mengirim data baru.</p>
+      </article>
+      <article class="feat">
+        <div class="ic violet"><svg><use href="#i-shield"/></svg></div>
+        <h3>Data Milikmu</h3>
+        <p>Semua catatan disimpan di perangkat sendiri dan baru dikirim ke server saat kamu memilih sinkron.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CARA KERJA ============ -->
+<section class="sec alt" id="cara-kerja">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Tiga langkah, selesai</h2>
+      <p>Tidak perlu pengaturan rumit. Sambungkan jam tanganmu, sisanya berjalan sendiri.</p>
+    </div>
+
+    <div class="steps">
+      <article class="step">
+        <h3>Sambungkan jam</h3>
+        <p>Buka dashboard, tekan “Sambungkan”, lalu pilih AsaWatch dari daftar perangkat Bluetooth.</p>
+      </article>
+      <article class="step">
+        <h3>Ukur &amp; catat</h3>
+        <p>Jam tangan mengukur sendiri tiap dua jam. Butuh angka sekarang? Tekan “Ukur Sekarang”.</p>
+      </article>
+      <article class="step">
+        <h3>Pantau trennya</h3>
+        <p>Lihat ringkasan harian, telusuri riwayat per parameter, dan tetapkan tujuan kesehatanmu.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRATINJAU APLIKASI ============ -->
+<section class="sec" id="aplikasi">
+  <div class="wrap preview">
+    <div>
+      <h2 style="font-size:2rem;font-weight:800;letter-spacing:-.025em;line-height:1.2">Dashboard yang enak dibaca setiap pagi</h2>
+      <p style="margin-top:.8rem;color:var(--txt2)">Satu layar merangkum kondisimu hari ini, tanpa harus menerjemahkan angka mentah sensor.</p>
+      <ul>
+        <li><svg><use href="#i-check"/></svg> Kartu ringkas untuk tiap parameter, lengkap dengan status normal atau perlu dicek</li>
+        <li><svg><use href="#i-check"/></svg> Halaman detail per parameter: grafik tren, statistik, dan tabel riwayat</li>
+        <li><svg><use href="#i-check"/></svg> Tujuan kesehatan dengan progres yang bisa kamu atur sendiri</li>
+        <li><svg><use href="#i-check"/></svg> Bisa dipasang sebagai aplikasi di ponsel maupun desktop</li>
+      </ul>
+      <div class="hero-cta">
+        <a class="btn btn-pri" href="ui/login.html" data-mulai>Mulai Sekarang <svg><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <div class="shot-frame">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <svg viewBox="0 0 520 330" role="img" aria-label="Pratinjau dashboard AsaWatch">
+        <rect width="520" height="330" fill="#f3f8f4"/>
+        <rect x="0" y="0" width="128" height="330" fill="#fff"/>
+        <rect x="16" y="18" width="26" height="26" rx="8" fill="#2fa360"/>
+        <rect x="50" y="26" width="58" height="10" rx="5" fill="#16261c" opacity=".8"/>
+        <rect x="12" y="62" width="104" height="28" rx="9" fill="#eaf7ef"/>
+        <rect x="24" y="72" width="62" height="8" rx="4" fill="#1f7d47"/>
+        <rect x="24" y="106" width="74" height="8" rx="4" fill="#93a399"/>
+        <rect x="24" y="134" width="66" height="8" rx="4" fill="#93a399"/>
+        <rect x="24" y="162" width="52" height="8" rx="4" fill="#93a399"/>
+        <rect x="24" y="190" width="58" height="8" rx="4" fill="#93a399"/>
+        <rect x="144" y="16" width="360" height="56" rx="14" fill="#d8f0e2"/>
+        <rect x="160" y="32" width="120" height="11" rx="5" fill="#123324"/>
+        <rect x="160" y="50" width="170" height="8" rx="4" fill="#3a5a48" opacity=".6"/>
+        <rect x="430" y="34" width="60" height="22" rx="8" fill="#2fa360"/>
+        <g>
+          <rect x="144" y="84" width="84" height="62" rx="12" fill="#fff"/>
+          <rect x="156" y="94" width="20" height="20" rx="7" fill="#fdecec"/>
+          <rect x="156" y="122" width="44" height="12" rx="5" fill="#16261c"/>
+          <rect x="236" y="84" width="84" height="62" rx="12" fill="#fff"/>
+          <rect x="248" y="94" width="20" height="20" rx="7" fill="#eaf7ef"/>
+          <rect x="248" y="122" width="48" height="12" rx="5" fill="#16261c"/>
+          <rect x="328" y="84" width="84" height="62" rx="12" fill="#fff"/>
+          <rect x="340" y="94" width="20" height="20" rx="7" fill="#eaf1fe"/>
+          <rect x="340" y="122" width="52" height="12" rx="5" fill="#16261c"/>
+          <rect x="420" y="84" width="84" height="62" rx="12" fill="#fff"/>
+          <rect x="432" y="94" width="20" height="20" rx="7" fill="#fdf3e3"/>
+          <rect x="432" y="122" width="46" height="12" rx="5" fill="#16261c"/>
+        </g>
+        <rect x="144" y="158" width="222" height="156" rx="14" fill="#fff"/>
+        <rect x="158" y="172" width="90" height="9" rx="4" fill="#16261c" opacity=".75"/>
+        <path d="M160 268l28-22 26 14 28-34 26 20 28-30 28 16 28-8" fill="none" stroke="#2fa360" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M160 268l28-22 26 14 28-34 26 20 28-30 28 16 28-8v52H160Z" fill="#2fa360" opacity=".10"/>
+        <rect x="374" y="158" width="130" height="156" rx="14" fill="#fff"/>
+        <rect x="388" y="172" width="70" height="9" rx="4" fill="#16261c" opacity=".75"/>
+        <g fill="#eaf7ef">
+          <rect x="388" y="196" width="102" height="24" rx="8"/>
+          <rect x="388" y="228" width="102" height="24" rx="8"/>
+          <rect x="388" y="260" width="102" height="24" rx="8"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec alt" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Pertanyaan yang sering muncul</h2>
+    </div>
+
+    <div class="faq">
+      <details open>
+        <summary>Perlu jam tangan AsaWatch untuk memakainya? <svg><use href="#i-chev"/></svg></summary>
+        <p>Untuk pengukuran otomatis, ya. Tapi halaman nutrisi, tujuan kesehatan, dan riwayat tetap bisa dipakai tanpa perangkat.</p>
+      </details>
+      <details>
+        <summary>Browser apa saja yang didukung? <svg><use href="#i-chev"/></svg></summary>
+        <p>Koneksi ke jam tangan memakai Web Bluetooth, jadi butuh Chrome atau Edge (desktop maupun Android). Safari dan Firefox belum mendukungnya.</p>
+      </details>
+      <details>
+        <summary>Data kesehatan saya disimpan di mana? <svg><use href="#i-chev"/></svg></summary>
+        <p>Di perangkatmu sendiri, lewat penyimpanan lokal browser. Data baru dikirim ke server ketika kamu menekan tombol sinkronisasi.</p>
+      </details>
+      <details>
+        <summary>Bisa dipasang seperti aplikasi biasa? <svg><use href="#i-chev"/></svg></summary>
+        <p>Bisa. AsaWatch adalah PWA, jadi dapat dipasang ke layar utama ponsel atau desktop dan tetap berfungsi saat offline.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AJAKAN AKHIR ============ -->
+<section class="cta">
+  <div class="wrap">
+    <div class="cta-box">
+      <span class="leaf l1"><svg><use href="#i-leaf"/></svg></span>
+      <span class="leaf l2"><svg><use href="#i-leaf"/></svg></span>
+      <h2>Siap mulai memantau kesehatanmu?</h2>
+      <p>Masuk sekarang, sambungkan jam tanganmu, dan lihat kondisi tubuhmu hari ini dalam satu dashboard.</p>
+      <a class="btn btn-pri btn-lg" href="ui/login.html" data-mulai>Mulai <svg><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="wrap">
+    <div>
+      <div class="logo"><span class="mark"><svg><use href="#i-heartbeat"/></svg></span> AsaWatch</div>
+      <p>Aplikasi pendamping smartwatch untuk memantau detak jantung, gula darah, tekanan darah, dan nutrisi harian.</p>
+    </div>
+    <div>
+      <h4>Produk</h4>
+      <ul>
+        <li><a href="#fitur">Fitur</a></li>
+        <li><a href="#cara-kerja">Cara Kerja</a></li>
+        <li><a href="ui/login.html" data-mulai>Buka Aplikasi</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Dukungan</h4>
+      <ul>
+        <li><a href="ui/bantuan.html">Bantuan</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="mailto:support@asawatch.id">support@asawatch.id</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Lainnya</h4>
+      <ul>
+        <li><a href="#">Kebijakan Privasi</a></li>
+        <li><a href="#">Syarat &amp; Ketentuan</a></li>
+        <li><a href="https://wa.me/6281234567890">WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap"><p class="foot-bot">© <span id="thn">2026</span> AsaWatch. Dibuat untuk pemantauan kesehatan harian.</p></div>
+</footer>
+
+<script>
+  // tahun berjalan
+  document.getElementById('thn').textContent = new Date().getFullYear();
+
+  // garis bawah navbar saat digulir
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('stuck', window.scrollY > 8);
+  onScroll();
+  addEventListener('scroll', onScroll, { passive: true });
+
+  // menu mobile
+  document.getElementById('navToggle').addEventListener('click', () =>
+    document.getElementById('navLinks').classList.toggle('open'));
+  document.querySelectorAll('#navLinks a').forEach(a =>
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
+
+  // sudah pernah masuk di perangkat ini -> tombol langsung ke dashboard
+  if (localStorage.getItem('aw_token')) {
+    document.querySelectorAll('[data-mulai]').forEach(a => {
+      a.href = 'ui/dashboard.html';
+      if (a.classList.contains('btn')) a.firstChild.textContent = 'Buka Dashboard ';
+    });
+    const masuk = document.getElementById('navMasuk');
+    if (masuk) masuk.remove();
+  }
+
+  // service worker (PWA)
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => { });
+</script>
+</body>
+</html>

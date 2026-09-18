@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2fa360">
+<title>Pengaturan Perangkat · AsaWatch</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9200;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="css/ui.css">
+</head>
+<body data-page="pengaturan">
+<div id="page-content">
+<div class="page-head"><h2 class="title"><a class="back" href="profil.html" aria-label="Kembali"><svg><use href="#i-back"/></svg></a>Pengaturan Perangkat</h2></div>
+
+<div class="card">
+  <div class="dev-row">
+    <div class="dev-media lg"><svg><use href="#i-watch"/></svg></div>
+    <div class="dev-info">
+      <b data-dev="nama">AsaWatch X1</b>
+      <small><span class="tag danger" data-dev="status">Terputus</span></small>
+      <small data-dev="meta">&mdash;</small>
+    </div>
+    <div class="dev-btns">
+      <button class="btn-ghost" id="btnConnect">Sambungkan</button>
+      <button class="btn-ghost hidden" id="btnDisconnect">Putuskan</button>
+      <button class="btn-primary sm" id="pSync">Sinkronisasi Data</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <ul class="list big">
+    <li><i class="ic green sm"><svg><use href="#i-bell"/></svg></i>
+      <div><b>Notifikasi</b><small>Aktif</small></div>
+      <button class="tgl" data-tgl="notif" aria-label="Notifikasi"></button></li>
+    <li><i class="ic blue sm"><svg><use href="#i-clock"/></svg></i>
+      <div><b>Pengingat Gerak</b><small>Setiap 60 menit</small></div>
+      <svg class="chev"><use href="#i-chev"/></svg></li>
+    <li><i class="ic red sm"><svg><use href="#i-heart"/></svg></i>
+      <div><b>Pemantauan Kesehatan</b><small>Aktifkan pemantauan berkelanjutan</small></div>
+      <button class="tgl" data-tgl="monitor" aria-label="Pemantauan kesehatan"></button></li>
+    <li><i class="ic amber sm"><svg><use href="#i-palette"/></svg></i>
+      <div><b>Pengaturan Tampilan</b><small>Atur tampilan jam tangan</small></div>
+      <svg class="chev"><use href="#i-chev"/></svg></li>
+    <li><i class="ic violet sm"><svg><use href="#i-watch"/></svg></i>
+      <div><b>Mode Simulasi</b><small>Uji alur tanpa jam tangan fisik</small></div>
+      <button class="tgl" data-tgl="simulasi" aria-label="Mode simulasi"></button></li>
+    <li class="danger" id="btnReset"><i class="ic red sm"><svg><use href="#i-trash"/></svg></i>
+      <div><b>Reset Perangkat</b><small>Hapus salinan data di browser ini</small></div>
+      <svg class="chev"><use href="#i-chev"/></svg></li>
+  </ul>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Pemakaian Aplikasi</h3></div>
+  <ul class="kv">
+    <li><span>Sumber data</span><b id="uSumber">&mdash;</b></li>
+    <li><span>Menunggu dikirim</span><b id="uAntrean">&mdash;</b></li>
+    <li><span>Koneksi perangkat</span><b id="uKoneksi">&mdash;</b></li>
+    <li><span>Sensor tersedia</span><b id="uSensor">&mdash;</b></li>
+    <li><span>Sampel tersimpan</span><b id="uSampel">0</b></li>
+    <li><span>Terakhir sinkron</span><b id="uSync">&mdash;</b></li>
+  </ul>
+</div>
+</div>
+<script src="../js/database.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/bluetooth.js"></script>
+<script src="js/server-config.js"></script>
+<script src="js/server.js"></script>
+<script src="js/shell.js"></script>
+<script src="js/store.js"></script>
+<script src="js/device.js"></script>
+<script src="js/pages.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+/* ============================================================
+   ui.css — tambahan khusus versi multi-halaman
+   (dimuat setelah ../css/main.css)
+   ============================================================ */
+
+/* brand & profil di topbar kini berupa tautan */
+.side-brand{color:inherit}
+.who{text-decoration:none}
+
+/* tab antar halaman metrik */
+.metric-tabs{display:flex;gap:.4rem;flex-wrap:wrap}
+.metric-tabs a{padding:.45rem 1rem;border-radius:20px;font-size:.82rem;font-weight:600;
+  color:var(--txt2);background:#fff;border:1px solid var(--line);transition:.15s}
+.metric-tabs a:hover{background:var(--pri-bg);border-color:var(--pri-l);color:var(--pri-d)}
+.metric-tabs a.active{background:var(--pri);border-color:var(--pri);color:#fff}
+
+/* keadaan grafik kosong */
+.chart-box{display:flex}
+.chart-empty{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:.5rem;
+  text-align:center;color:var(--txt3);font-size:.84rem;background:#fff}
+.chart-empty svg{width:2.2rem;height:2.2rem;opacity:.45}
+
+/* tabel: tautan baris & ikon jenis */
+.row-link{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:9px;color:var(--txt3)}
+.row-link:hover{background:var(--pri-bg);color:var(--pri-d)}
+
+/* form nutrisi */
+.nutri-form{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin:.2rem 0 1rem}
+.nutri-form label{font-size:.78rem;font-weight:600;color:var(--txt2);display:flex;flex-direction:column;gap:.3rem}
+.nutri-form input{padding:.6rem .8rem;border:1.5px solid var(--line);border-radius:10px;
+  font-size:.88rem;font-weight:600;background:#fbfdfc}
+.nutri-form input:focus{border-color:var(--pri);background:#fff;box-shadow:0 0 0 3px rgba(47,163,96,.14)}
+
+/* tujuan kesehatan */
+.goal-del{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:var(--txt3);flex-shrink:0}
+.goal-del:hover{background:#fdecec;color:var(--red)}
+.empty-row{padding:1.6rem;text-align:center;color:var(--txt3);font-size:.86rem}
+
+/* kartu profil ringkas di halaman profil */
+.prof-mini{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;
+  padding-bottom:1.1rem;border-bottom:1px solid var(--line-soft)}
+
+/* judul halaman dengan tombol kembali */
+.back{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;
+  background:#fff;border:1px solid var(--line);color:var(--txt2);margin-right:.6rem}
+.back:hover{background:var(--pri-bg);color:var(--pri-d);border-color:var(--pri-l)}
+.page-head .title{display:flex;align-items:center}
+
+/* footer kecil halaman auth */
+.auth-foot{margin-top:1.2rem;text-align:center;font-size:.76rem;color:var(--txt3)}
+
+/* tombol Google resmi (dirender oleh Google Identity Services) */
+.gsi-wrap{display:flex;justify-content:center}
+.gsi-wrap > div{max-width:100%}
+.gsi-galat{font-size:.78rem;color:var(--txt3);text-align:center;
+  background:var(--bg);border-radius:10px;padding:.6rem .8rem}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2fa360">
+<title>Daftar · AsaWatch</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9200;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="css/ui.css">
+</head>
+<body data-page="auth" class="auth-page">
+<div class="auth-screen">
+  <div class="auth-card">
+  <aside class="auth-brand">
+    <div class="brand-mark"><svg><use href="#i-heartbeat"/></svg></div>
+    <h1>AsaWatch</h1>
+    <p class="brand-tag">Pantau Kesehatanmu,<br>Hidup Lebih Sehat</p>
+
+    <div class="device-art" aria-hidden="true">
+      <svg viewBox="0 0 320 210">
+        <ellipse cx="160" cy="198" rx="118" ry="11" fill="rgba(0,0,0,.10)"/>
+        <rect x="176" y="24" width="112" height="170" rx="18" fill="#12321f"/>
+        <rect x="181" y="29" width="102" height="160" rx="14" fill="#f4fbf6"/>
+        <rect x="191" y="40" width="82" height="26" rx="8" fill="#2fa360" opacity=".18"/>
+        <rect x="191" y="72" width="38" height="34" rx="8" fill="#2fa360" opacity=".30"/>
+        <rect x="235" y="72" width="38" height="34" rx="8" fill="#2fa360" opacity=".18"/>
+        <rect x="191" y="112" width="82" height="46" rx="10" fill="#fff" stroke="#2fa360" stroke-opacity=".3"/>
+        <path d="M197 142l10-10 9 7 10-14 9 11 10-8 12 6" fill="none" stroke="#2fa360" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="191" y="164" width="82" height="14" rx="7" fill="#2fa360" opacity=".25"/>
+        <rect x="52" y="18" width="56" height="62" rx="22" fill="#6b7d73"/>
+        <rect x="52" y="130" width="56" height="62" rx="22" fill="#6b7d73"/>
+        <circle cx="80" cy="105" r="52" fill="#255142"/>
+        <circle cx="80" cy="105" r="45" fill="#0f2a20"/>
+        <circle cx="80" cy="105" r="39" fill="#143a2b"/>
+        <path d="M60 110l9-9 8 7 9-13 8 10 9-7 10 6" fill="none" stroke="#6ee7a0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="80" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="#eafff2">78 bpm</text>
+        <text x="80" y="134" text-anchor="middle" font-size="10" fill="#8fd7b0">AsaWatch</text>
+        <circle cx="133" cy="95" r="4" fill="#cfd8d3"/>
+      </svg>
+    </div>
+
+    <ul class="brand-feats">
+      <li><span><svg><use href="#i-heart"/></svg></span>Detak Jantung</li>
+      <li><span><svg><use href="#i-drop"/></svg></span>Gula Darah</li>
+      <li><span><svg><use href="#i-gauge"/></svg></span>Tensi</li>
+      <li><span><svg><use href="#i-food"/></svg></span>Nutrisi Makanan</li>
+      <li><span><svg><use href="#i-chart"/></svg></span>Laporan Realtime</li>
+    </ul>
+  </aside>
+
+    <section class="auth-panel">
+      <div class="auth-switch">
+        <a class="as-btn" href="login.html">Masuk</a>
+        <button class="as-btn active" type="button">Daftar</button>
+      </div>
+
+      <form id="registerForm" class="auth-form">
+        <h2>Buat Akun Baru</h2>
+        <p class="muted">Lengkapi data di bawah untuk membuat akunmu</p>
+
+        <label>Nama Lengkap
+          <span class="field"><svg class="fi"><use href="#i-user"/></svg>
+            <input type="text" id="regName" placeholder="Masukkan nama lengkap" required></span>
+        </label>
+        <label>Email
+          <span class="field"><svg class="fi"><use href="#i-mail"/></svg>
+            <input type="email" id="regEmail" placeholder="Masukkan email" required></span>
+        </label>
+        <label>Password
+          <span class="field"><svg class="fi"><use href="#i-lock"/></svg>
+            <input type="password" id="regPass" placeholder="Minimal 8 karakter" required>
+            <button type="button" class="eye" data-eye="regPass" aria-label="Tampilkan password"><svg><use href="#i-eye"/></svg></button></span>
+        </label>
+        <label>Konfirmasi Password
+          <span class="field"><svg class="fi"><use href="#i-lock"/></svg>
+            <input type="password" id="regPass2" placeholder="Ulangi password" required>
+            <button type="button" class="eye" data-eye="regPass2" aria-label="Tampilkan password"><svg><use href="#i-eye"/></svg></button></span>
+        </label>
+
+        <label class="check"><input type="checkbox" required> Saya menyetujui <a href="#" class="link">Syarat &amp; Ketentuan</a> dan <a href="#" class="link">Kebijakan Privasi</a></label>
+        <button type="submit" class="btn-primary block">Daftar</button>
+      <div class="or"><span>atau daftar dengan</span></div>
+      <div class="gsi-wrap"><div id="tombolGoogle"></div></div>
+      <p class="gsi-galat hidden" id="googleGalat"></p>
+
+        <p class="muted center">Sudah punya akun? <a href="login.html" class="link">Masuk di sini</a></p>
+      </form>
+    </section>
+  </div>
+</div>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="../js/database.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/bluetooth.js"></script>
+<script src="js/server-config.js"></script>
+<script src="js/server.js"></script>
+<script src="js/shell.js"></script>
+<script src="js/store.js"></script>
+<script src="js/device.js"></script>
+<script src="js/pages.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2fa360">
+<title>Riwayat Data · AsaWatch</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9200;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="css/ui.css">
+</head>
+<body data-page="riwayat">
+<div id="page-content">
+<div class="page-head"><h2 class="title"><a class="back" href="dashboard.html" aria-label="Kembali"><svg><use href="#i-back"/></svg></a>Riwayat Data</h2>
+  <div class="pills">
+    <button class="pill active" data-hist="semua">Semua</button>
+    <button class="pill" data-hist="jantung">Jantung</button>
+    <button class="pill" data-hist="gula">Gula Darah</button>
+    <button class="pill" data-hist="tensi">Tensi</button>
+    <button class="pill" data-hist="kalori">Kalori</button>
+  </div>
+</div>
+<div class="card">
+  <div class="table-wrap">
+    <table class="tbl">
+      <thead><tr><th>Tanggal &amp; Waktu</th><th>Jenis</th><th>Nilai</th><th>Status</th><th></th></tr></thead>
+      <tbody id="tbHistory"><tr><td colspan="5" class="empty">Memuat&hellip;</td></tr></tbody>
+    </table>
+  </div>
+  <div class="pager" id="pager"></div>
+</div>
+</div>
+<script src="../js/database.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/bluetooth.js"></script>
+<script src="js/server-config.js"></script>
+<script src="js/server.js"></script>
+<script src="js/shell.js"></script>
+<script src="js/store.js"></script>
+<script src="js/device.js"></script>
+<script src="js/pages.js"></script>
+</body>
+</html>

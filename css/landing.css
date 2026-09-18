@@ -1,0 +1,187 @@
+/* ============================================================
+   landing.css — halaman publik AsaWatch
+   Memakai token dari css/tokens.css (tidak memuat main.css)
+   ============================================================ */
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px;scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--txt);background:#fff;line-height:1.6;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+img{max-width:100%;display:block}
+svg{width:1.2rem;height:1.2rem;fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.sprite{display:none}
+.wrap{width:100%;max-width:1140px;margin:0 auto;padding:0 1.5rem}
+
+/* ---------- tombol ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.85rem 1.7rem;border-radius:12px;font-weight:700;font-size:.95rem;transition:.2s}
+.btn-pri{background:var(--pri);color:#fff;box-shadow:0 8px 20px rgba(47,163,96,.25)}
+.btn-pri:hover{background:var(--pri-d);transform:translateY(-1px);box-shadow:0 12px 26px rgba(47,163,96,.3)}
+.btn-out{border:1.5px solid var(--line);color:var(--txt);background:#fff}
+.btn-out:hover{border-color:var(--pri);color:var(--pri-d);background:var(--pri-bg)}
+.btn-lg{padding:1rem 2.2rem;font-size:1rem}
+.btn-sm{padding:.6rem 1.2rem;font-size:.88rem;border-radius:10px}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.88);
+  backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s,box-shadow .2s}
+.nav.stuck{border-color:var(--line);box-shadow:0 2px 16px rgba(20,50,32,.05)}
+.nav .wrap{display:flex;align-items:center;gap:1.2rem;height:68px}
+.logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.1rem;letter-spacing:-.01em}
+.logo .mark{width:36px;height:36px;border-radius:11px;background:var(--pri);color:#fff;display:grid;place-items:center}
+.logo .mark svg{width:1.2rem;height:1.2rem;fill:currentColor;stroke:none}
+.nav-links{display:flex;gap:.3rem;margin-left:1.5rem}
+.nav-links a{padding:.5rem .9rem;border-radius:9px;font-size:.9rem;font-weight:600;color:var(--txt2);transition:.15s}
+.nav-links a:hover{background:var(--pri-bg);color:var(--pri-d)}
+.nav-cta{display:flex;align-items:center;gap:.6rem;margin-left:auto}
+.nav-toggle{display:none;width:40px;height:40px;border-radius:10px;place-items:center;color:var(--txt2)}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;overflow:hidden;padding:4.5rem 0 4rem;
+  background:
+    radial-gradient(760px 420px at 85% 8%,#dff2e7,transparent 62%),
+    radial-gradient(620px 420px at 8% 92%,#eaf7ef,transparent 60%),#fbfdfc}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .9rem;border-radius:999px;
+  background:var(--pri-bg);color:var(--pri-d);font-size:.8rem;font-weight:700;margin-bottom:1.2rem}
+.eyebrow svg{width:.95rem;height:.95rem}
+.hero h1{font-size:3.1rem;line-height:1.12;font-weight:800;letter-spacing:-.03em;color:#102a1c}
+.hero h1 em{font-style:normal;color:var(--pri-d)}
+.hero .lead{margin-top:1.1rem;font-size:1.05rem;color:var(--txt2);max-width:30rem}
+.hero-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.9rem}
+.hero-note{margin-top:1.1rem;font-size:.82rem;color:var(--txt3)}
+
+.hero-visual{position:relative;display:grid;place-items:center}
+.hero-visual .glow{position:absolute;width:82%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,#bfe8ce,transparent 68%);filter:blur(12px)}
+.hero-visual svg.device{position:relative;width:100%;max-width:440px;height:auto;stroke:none}
+.float{position:absolute;display:flex;align-items:center;gap:.6rem;background:#fff;
+  border:1px solid var(--line);border-radius:14px;padding:.65rem .9rem;
+  box-shadow:0 12px 30px rgba(20,50,32,.10);animation:bob 4s ease-in-out infinite}
+.float b{font-size:.95rem;font-weight:800;display:block;line-height:1.2}
+.float small{font-size:.7rem;color:var(--txt3)}
+.float.f1{top:6%;left:-2%}
+.float.f2{bottom:14%;right:-2%;animation-delay:-2s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@media(prefers-reduced-motion:reduce){.float{animation:none}}
+
+/* ---------- strip angka ---------- */
+.strip{border-block:1px solid var(--line);background:#fff}
+.strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding-block:1.6rem;text-align:center}
+.strip b{display:block;font-size:1.7rem;font-weight:800;letter-spacing:-.02em;color:var(--pri-d)}
+.strip small{font-size:.8rem;color:var(--txt3);font-weight:600}
+
+/* ============================================================
+   SEKSI UMUM
+   ============================================================ */
+.sec{padding:4.5rem 0}
+.sec.alt{background:var(--bg)}
+.sec-head{max-width:38rem;margin:0 auto 2.6rem;text-align:center}
+.sec-head h2{font-size:2.1rem;font-weight:800;letter-spacing:-.025em;line-height:1.2}
+.sec-head p{margin-top:.8rem;color:var(--txt2)}
+
+/* fitur */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.feat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:1.6rem;transition:.2s}
+.feat:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(20,50,32,.08);border-color:var(--pri-l)}
+.feat .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;margin-bottom:1rem}
+.feat .ic svg{width:1.4rem;height:1.4rem}
+.feat h3{font-size:1.05rem;font-weight:700;margin-bottom:.4rem}
+.feat p{font-size:.9rem;color:var(--txt2)}
+.ic.red{background:#fdecec;color:var(--red)}
+.ic.green{background:var(--pri-bg);color:var(--pri-d)}
+.ic.blue{background:#eaf1fe;color:var(--blue)}
+.ic.amber{background:#fdf3e3;color:#c97f16}
+.ic.cyan{background:#e3f7f9;color:#12889a}
+.ic.violet{background:#f0ecfe;color:#6d4fd8}
+
+/* cara kerja */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;counter-reset:step}
+.step{position:relative;padding-top:3.2rem}
+.step::before{counter-increment:step;content:counter(step);position:absolute;top:0;left:0;
+  width:44px;height:44px;border-radius:14px;background:var(--pri);color:#fff;
+  display:grid;place-items:center;font-weight:800;font-size:1.05rem}
+.step h3{font-size:1.05rem;font-weight:700;margin-bottom:.4rem}
+.step p{font-size:.9rem;color:var(--txt2)}
+
+/* pratinjau aplikasi */
+.preview{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;align-items:center}
+.preview ul{display:grid;gap:.9rem;margin-top:1.4rem}
+.preview li{display:flex;gap:.7rem;align-items:flex-start;font-size:.92rem;color:var(--txt2)}
+.preview li svg{width:1.2rem;height:1.2rem;color:var(--pri);margin-top:.15rem}
+.shot-frame{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff;
+  box-shadow:0 22px 50px rgba(20,50,32,.10)}
+.shot-frame .bar{display:flex;gap:.4rem;padding:.7rem .9rem;border-bottom:1px solid var(--line);background:#fafdfb}
+.shot-frame .bar i{width:9px;height:9px;border-radius:50%;background:#dbe5de}
+.shot-frame svg{width:100%;height:auto;display:block;stroke:none}
+
+/* faq */
+.faq{max-width:46rem;margin:0 auto;display:grid;gap:.7rem}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem;transition:.2s}
+.faq details[open]{border-color:var(--pri-l);box-shadow:0 8px 22px rgba(20,50,32,.06)}
+.faq summary{display:flex;align-items:center;gap:.8rem;font-weight:700;font-size:.96rem;cursor:pointer;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary svg{margin-left:auto;transition:transform .2s;color:var(--txt3)}
+.faq details[open] summary svg{transform:rotate(90deg);color:var(--pri)}
+.faq p{margin-top:.7rem;font-size:.9rem;color:var(--txt2)}
+
+/* ajakan akhir */
+.cta{padding:4rem 0}
+.cta-box{background:linear-gradient(120deg,#e4f5ea,#c9ebd8);border-radius:24px;
+  padding:3rem 2rem;text-align:center;position:relative;overflow:hidden}
+.cta-box h2{font-size:2rem;font-weight:800;letter-spacing:-.02em;color:#102a1c}
+.cta-box p{margin:.8rem auto 1.8rem;color:#3a5a48;max-width:32rem}
+.cta-box .leaf{position:absolute;color:#8ed4ab;opacity:.45}
+.cta-box .leaf svg{width:110px;height:110px;fill:currentColor;stroke:none}
+.cta-box .leaf.l1{top:-20px;left:-18px;transform:rotate(-20deg)}
+.cta-box .leaf.l2{bottom:-26px;right:-14px;transform:rotate(150deg)}
+
+/* footer */
+.foot{background:#102a1c;color:#cfe6d9;padding:3rem 0 1.5rem}
+.foot .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2rem}
+.foot .logo{color:#fff;margin-bottom:.8rem}
+.foot .logo .mark{background:rgba(255,255,255,.14)}
+.foot p{font-size:.86rem;color:#9dc3ac;max-width:20rem}
+.foot h4{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:#7fae94;margin-bottom:.8rem}
+.foot li{margin-bottom:.5rem}
+.foot a{font-size:.88rem;color:#cfe6d9}
+.foot a:hover{color:#fff}
+.foot-bot{margin-top:2.4rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.1);
+  font-size:.8rem;color:#7fae94;text-align:center}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:960px){
+  .hero .wrap{grid-template-columns:1fr;gap:2.4rem}
+  .hero h1{font-size:2.5rem}
+  .hero-visual{order:-1}
+  .feats,.steps{grid-template-columns:repeat(2,1fr)}
+  .preview{grid-template-columns:1fr}
+  .foot .wrap{grid-template-columns:1fr 1fr}
+}
+@media(max-width:720px){
+  .nav-links{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;
+    background:#fff;border-bottom:1px solid var(--line);padding:.8rem 1.5rem;margin:0;gap:.2rem}
+  .nav-links.open{display:flex}
+  .nav-toggle{display:grid}
+  .nav .wrap{position:relative}
+  .nav-cta .btn-out{display:none}
+  .hero{padding:3rem 0}
+  .hero h1{font-size:2.1rem}
+  .strip .wrap{grid-template-columns:1fr 1fr;gap:1.4rem}
+  .feats,.steps{grid-template-columns:1fr}
+  .sec{padding:3.2rem 0}
+  .sec-head h2{font-size:1.7rem}
+  .cta-box{padding:2.2rem 1.4rem}
+  .cta-box h2{font-size:1.6rem}
+  .foot .wrap{grid-template-columns:1fr}
+}

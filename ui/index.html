@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>AsaWatch</title>
+<script>
+  // token ada -> langsung dashboard, kalau belum -> halaman masuk
+  location.replace(localStorage.getItem('aw_token') ? 'dashboard.html' : 'login.html');
+</script>
+</head>
+<body></body>
+</html>
