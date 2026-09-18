@@ -92,7 +92,7 @@
     const tautan = (n) => `<a href="${n.href}" data-nav="${n.key}" class="${n.key === active ? 'active' : ''}">${ic(n.icon)} ${n.label}</a>`;
     return `
 <aside class="sidebar" id="sidebar">
-  <a class="side-brand" href="dashboard.html"><div class="brand-mark sm">${ic('i-heartbeat')}</div><b>AsaWatch</b></a>
+  <a class="side-brand" href="dashboard.html"><img src="../assets/logo/logo-mark.png" alt="" width="34" height="34" style="border-radius:10px"><b>AsaWatch</b></a>
   <nav class="side-nav">
     ${NAV.filter(n => n.key !== 'tengah').map(tautan).join('')}
     <a href="deteksi-makanan.html" data-nav="tengah" id="sideTengah" class="${['nutrisi', 'sesi'].includes(active) ? 'active' : ''}">${ic('i-camera')} Foto Makanan</a>

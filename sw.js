@@ -12,7 +12,7 @@ const ASSETS_TO_CACHE = [
   'ui/kalibrasi-tensi.html', 'ui/perangkat.html', 'ui/profil.html', 'ui/bantuan.html',
   'ui/js/protokol.js', 'ui/js/model.js', 'ui/js/db.js', 'ui/js/server.js', 'ui/js/ble.js',
   'ui/js/sesi.js', 'ui/js/komponen.js', 'ui/js/kurva.js', 'ui/js/shell.js', 'ui/js/pages.js',
-  'assets/logo/logo2.jpeg',
+  'assets/logo/icon-32.png', 'assets/logo/icon-192.png', 'assets/logo/logo-mark.png', 'assets/logo/logo-asawatch.png',
 ].map(r);
 
 self.addEventListener('install', (event) => {
