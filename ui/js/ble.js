@@ -144,9 +144,15 @@
      * Sambung ulang tanpa dialog, memakai izin yang sudah ada — HANYA ke id
      * yang tersimpan, bukan perangkat pertama yang kebetulan pernah diizinkan.
      */
+    /**
+     * Koneksi GATT milik dokumen: setiap ganti halaman memutusnya, dan halaman
+     * baru harus menyambung lagi. Chrome hanya mengizinkan `gatt.connect()` pada
+     * perangkat dari `getDevices()` SETELAH satu paket iklan diterima lewat
+     * `watchAdvertisements()` — tanpa itu connect ditolak diam-diam.
+     */
     async sambungUlangSenyap() {
       if (this._status.tersambung || this._status.sedangMenyambung) return false;
-      if (!navigator.bluetooth?.getDevices) return false;
+      if (!JamAsli.bisaSambungUlangSenyap()) return false;
       const id = localStorage.getItem(LS_ID);
       if (!id) return false;
       try {
@@ -155,8 +161,30 @@
         if (!device) return false;
         this.device = device;
         this._sengajaPutus = false;
+        this._setStatus({ sedangMenyambung: true });
+        if (!device.gatt.connected && typeof device.watchAdvertisements === 'function') {
+          const terlihat = await this._tungguIklan(device, 12000);
+          if (!terlihat) { this._setStatus({ sedangMenyambung: false }); return false; }   // jam mati / di luar jangkauan
+        }
         return (await this._sambung(device, { senyap: true })) === HasilSambung.berhasil;
-      } catch { return false; }
+      } catch (e) {
+        console.warn('[Jam] Sambung ulang senyap gagal:', e.message);
+        this._setStatus({ sedangMenyambung: false });
+        return false;
+      }
+    }
+
+    /** `getDevices()` masih di balik flag Chrome (#enable-web-bluetooth-new-permissions-backend). */
+    static bisaSambungUlangSenyap() { return !!navigator.bluetooth?.getDevices; }
+
+    /** Tunggu satu paket iklan dari perangkat, maksimal `batasMs`. */
+    _tungguIklan(device, batasMs) {
+      return new Promise((selesai) => {
+        const ctl = new AbortController();
+        const timer = setTimeout(() => { ctl.abort(); selesai(false); }, batasMs);
+        device.addEventListener('advertisementreceived', () => { clearTimeout(timer); ctl.abort(); selesai(true); }, { once: true });
+        device.watchAdvertisements({ signal: ctl.signal }).catch(() => { clearTimeout(timer); selesai(false); });
+      });
     }
 
     async _sambung(device, { senyap = false } = {}) {

@@ -561,7 +561,8 @@
             ${p.tersambung ? '<button class="btn-ghost" id="btnPutus">Putuskan</button><button class="btn-ghost" id="btnSinkronJam">Tarik Buffer Jam</button>' : ''}
             ${!p.belumDipasangkan ? '<button class="btn-ghost danger" id="btnLupakan">Lupakan Jam</button>' : ''}
           </div>
-          ${!window.Jam.JamAsli.didukung() && !palsu ? `<p class="catatan">Browser ini tidak mendukung Web Bluetooth. Pakai Chrome/Edge (HTTPS), atau nyalakan Jam Palsu untuk mencoba alurnya.</p>` : ''}</div>
+          ${!window.Jam.JamAsli.didukung() && !palsu ? `<p class="catatan">Browser ini tidak mendukung Web Bluetooth. Pakai Chrome/Edge (HTTPS), atau nyalakan Jam Palsu untuk mencoba alurnya.</p>` : ''}
+          ${window.Jam.JamAsli.didukung() && !palsu && !window.Jam.JamAsli.bisaSambungUlangSenyap() ? `<p class="catatan">Koneksi Bluetooth di web hanya hidup selama satu halaman terbuka. Browser ini belum bisa menyambung ulang otomatis saat pindah halaman — aktifkan <code>chrome://flags/#enable-web-bluetooth-new-permissions-backend</code> lalu mulai ulang Chrome; tanpa itu tekan <b>Sambungkan Ulang</b> setiap kali pindah halaman. Sampel yang diukur selagi terputus tetap aman di buffer jam.</p>` : ''}</div>
         <div class="card"><div class="card-head"><h3>Keadaan Jam</h3></div><ul class="kv">
           <li><span>Baterai</span><b>${p.baterai != null ? p.baterai + '%' : '— (hanya terbaca selagi tersambung)'}</b></li>
           <li><span>Sampel tertahan di buffer</span><b>${p.sampelTertunda}</b></li>
