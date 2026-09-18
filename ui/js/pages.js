@@ -14,7 +14,8 @@
   const K = window.Komponen;
   const U = window.UI;
   const { $, ic, esc, toast } = U;
-  const q = new URLSearchParams(location.search);
+  const q = () => window.App.q();          // query rute aktif (SPA: dari hash)
+  const ke = (url) => window.App.ke(url);   // pindah halaman tanpa mengganti dokumen
 
   /* ============================================================
      BERANDA — tiga wajah
@@ -95,12 +96,13 @@
       wadah.innerHTML = bagian.join('');
       lepas = K.pasangHitungMundur(wadah, () => ctl._armTitikBerikutnya());
       pasangAksiSesi(ctl, wadah);
-      wadah.querySelector('[data-buka]')?.addEventListener('click', (e) => { const id = e.currentTarget.dataset.buka; ctl.tandaiHasilDibaca(); location.href = 'ringkasan-sesi.html?id=' + id; });
+      wadah.querySelector('[data-buka]')?.addEventListener('click', (e) => { const id = e.currentTarget.dataset.buka; ctl.tandaiHasilDibaca(); ke('ringkasan-sesi.html?id=' + id); });
       if ($('chartBaru')) window.Kurva.sesi('chartBaru', ctl.hasilBelumDibaca, [window.Kurva.Seri.gulaDarah]);
       if ($('chartSpark')) window.Kurva.sparkline('chartSpark', ctl.puncakTerakhir(7));
     }
-    ctl.on('ubah', gambar);
+    const lepasUbah = ctl.on('ubah', gambar);
     gambar();
+    return () => { lepasUbah(); lepas?.(); generasi++; };
   }
 
   /** Tombol "Saya Sudah Selesai Makan" & "Ukur titik" — jalur sama di semua permukaan. */
@@ -147,7 +149,8 @@
       $('btnCobaKam')?.addEventListener('click', siapkanKamera);
     }
     function lepasKamera() { generasi++; stream?.getTracks().forEach(t => t.stop()); stream = null; if (video) video.srcObject = null; }
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') lepasKamera(); else if (!ctl.sesiAktif) siapkanKamera(); });
+    const padaVisibilitas = () => { if (document.visibilityState === 'hidden') lepasKamera(); else if (!ctl.sesiAktif) siapkanKamera(); };
+    document.addEventListener('visibilitychange', padaVisibilitas);
     window.addEventListener('pagehide', lepasKamera);
 
     rana.addEventListener('click', async () => {
@@ -212,8 +215,9 @@
         await ctl.batalkan(); toast('Draft dibuang');
       });
     }
-    ctl.on('ubah', gambar);
+    const lepasUbah = ctl.on('ubah', gambar);
     gambar();
+    return () => { lepasUbah(); lepas?.(); lepasKamera(); generasiRender++; document.removeEventListener('visibilitychange', padaVisibilitas); window.removeEventListener('pagehide', lepasKamera); };
   }
 
   /* ============================================================
@@ -262,8 +266,9 @@
         if (ya) { berakhirId = null; await ctl.batalkan(); toast('Sesi dibatalkan'); }
       });
     }
-    ctl.on('ubah', gambar);
+    const lepasUbah = ctl.on('ubah', gambar);
     gambar();
+    return () => { lepasUbah(); lepas?.(); generasi++; };
   }
 
   /* ============================================================
@@ -271,7 +276,7 @@
      ============================================================ */
   async function halamanRingkasan() {
     const { ctl } = await window.App.siap;
-    const id = q.get('id');
+    const id = q().get('id');
     const s = id ? (ctl.cariSesi(id) || (await window.DB.muatSesi(id))) : null;
     const wadah = $('ringkasan');
     if (!s) { wadah.innerHTML = `<div class="card"><p class="muted">Sesi tidak ditemukan.</p></div>`; return; }
@@ -343,11 +348,12 @@
       wadah.innerHTML = potongan.join('');
       wadah.querySelectorAll('[data-sesi]').forEach(el => el.addEventListener('click', () => {
         const s = ctl.cariSesi(el.dataset.sesi);
-        location.href = s && Sesi.sedangAktif(s) ? 'sesi-berjalan.html' : 'ringkasan-sesi.html?id=' + el.dataset.sesi;
+        ke(s && Sesi.sedangAktif(s) ? 'sesi-berjalan.html' : 'ringkasan-sesi.html?id=' + el.dataset.sesi);
       }));
     }
-    ctl.on('ubah', gambar);
+    const lepasUbah = ctl.on('ubah', gambar);
     gambar();
+    return () => { lepasUbah(); generasi++; };
   }
 
   /* ============================================================
@@ -377,10 +383,11 @@
           <a href="detak-jantung.html">${ic('i-heart')} Detak Jantung<small>per titik</small></a>
           ${tampil.tekananDarah ? `<a href="tensi.html">${ic('i-gauge')} Tekanan Darah<small>tren & kalibrasi</small></a>` : ''}
         </div></div>`;
-      window.Kurva.sebaran('chartSebaran', titik, tren, { onKlik: (s) => location.href = 'ringkasan-sesi.html?id=' + s.id });
+      window.Kurva.sebaran('chartSebaran', titik, tren, { onKlik: (s) => ke('ringkasan-sesi.html?id=' + s.id) });
     }
-    ctl.on('ubah', gambar);
+    const lepasUbah = ctl.on('ubah', gambar);
     gambar();
+    return () => lepasUbah();
   }
 
   /* ============================================================
@@ -390,7 +397,7 @@
     const { ctl } = await window.App.siap;
     const jenis = document.body.dataset.metric;
     const Kv = window.Kurva, Seri = Kv.Seri;
-    const s = (q.get('id') && ctl.cariSesi(q.get('id'))) || ctl.sesiTerakhir;
+    const s = (q().get('id') && ctl.cariSesi(q().get('id'))) || ctl.sesiTerakhir;
     const A = M.AnalisisSesi(ctl.riwayat);
     const wadah = $('metrik');
     const seri = { gula: Seri.gulaDarah, detak: Seri.detakJantung, tensi: Seri.sistolik }[jenis];
@@ -444,8 +451,9 @@
       $('btnPindai')?.addEventListener('click', async () => { try { await ctl.pindaiKesehatan(); } catch (e) { toast(e.pesanPengguna || e.message); } });
       $('btnBuangPindai')?.addEventListener('click', () => ctl.buangPindaiTerakhir());
     }
-    ctl.on('ubah', gambar);
+    const lepasUbah = ctl.on('ubah', gambar);
     gambar();
+    return () => lepasUbah();
   }
 
   /* ============================================================
@@ -523,13 +531,14 @@
       $('btnUlangSemua')?.addEventListener('click', () => { tahap = 0; putaran = []; bacaanJam = null; gambar(); });
       $('btnKirim')?.addEventListener('click', async (e) => {
         e.target.disabled = true;
-        try { await ctl.simpanKalibrasi({ waktu: new Date().toISOString(), sisi, putaran }); toast('Koreksi dikirim ke jam dan disimpan'); location.href = 'tensi.html'; }
+        try { await ctl.simpanKalibrasi({ waktu: new Date().toISOString(), sisi, putaran }); toast('Koreksi dikirim ke jam dan disimpan'); ke('tensi.html'); }
         catch (err) { toast(err.pesanPengguna || err.message); e.target.disabled = false; }
       });
     }
-    ctl.on('kemajuan', () => { if (tahap === 1 && sedangUkur) gambar(); });
-    ctl.on('status', () => { if (tahap === 0) gambar(); });
+    const lepas1 = ctl.on('kemajuan', () => { if (tahap === 1 && sedangUkur) gambar(); });
+    const lepas2 = ctl.on('status', () => { if (tahap === 0) gambar(); });
     gambar();
+    return () => { lepas1(); lepas2(); lepas?.(); };
   }
 
   /* ============================================================
@@ -540,7 +549,7 @@
     const wadah = $('perangkat');
     const S = window.Pengaturan;
     let tahap = null;
-    jam.on('tahap', t => { tahap = t; gambar(); });
+    const lepasTahap = jam.on('tahap', t => { tahap = t; gambar(); });
 
     function gambar() {
       const p = ctl.statusPerangkat, st = S.semua();
@@ -610,8 +619,9 @@
       $('btnHapusUji')?.addEventListener('click', async () => { if (await U.konfirmasi({ judul: 'Hapus semua sesi uji?', isi: 'Hanya sesi bertanda sesi uji yang dihapus. Data lain dan penyandingan jam tetap.', ya: 'Hapus', bahaya: true })) { await ctl.hapusSesiUji(); toast('Sesi uji dihapus'); } });
       $('btnNotif')?.addEventListener('click', async () => { await Notification.requestPermission(); gambar(); });
     }
-    ctl.on('ubah', gambar);
+    const lepasUbah = ctl.on('ubah', gambar);
     gambar();
+    return () => { lepasUbah(); lepasTahap(); };
   }
 
   /* ============================================================
@@ -650,8 +660,9 @@
       $('subPerangkat').textContent = p.belumDipasangkan ? 'Belum dipasangkan' : p.tersambung ? `${p.namaPerangkat} · tersambung` : `${p.namaPerangkat} · terputus`;
       $('subKalibrasi').textContent = !k ? 'Belum pernah' : M.Kalibrasi.kedaluwarsaPada(k) ? 'Kedaluwarsa' : `Berlaku ${M.Kalibrasi.sisaHariPada(k)} hari lagi`;
     };
-    ctl.on('ubah', sub);
+    const lepasUbah = ctl.on('ubah', sub);
     sub();
+    return () => lepasUbah();
   }
 
   /* ============================================================
@@ -670,7 +681,7 @@
       let g = form.querySelector('.galat-form'); if (!g) { g = document.createElement('div'); g.className = 'galat-form'; form.querySelector('button[type="submit"]').before(g); }
       g.textContent = hasil.pesan; g.classList.remove('hidden');
     };
-    const berhasil = () => { localStorage.removeItem('aw_akun_email_sementara'); location.href = 'dashboard.html'; };
+    const berhasil = () => { localStorage.removeItem('aw_akun_email_sementara'); location.href = 'app.html'; };
 
     $('loginForm')?.addEventListener('submit', async e => {
       e.preventDefault();
@@ -693,7 +704,7 @@
       } catch (err) { tampilGalat(e.target, err.hasil || { pesan: err.message }); selesai(tombol); }
     });
     pasangTombolGoogle();
-    if (window.Server?.token()) location.replace('dashboard.html');
+    if (window.Server?.token()) location.replace('app.html');
   }
 
   function pasangTombolGoogle() {
@@ -711,7 +722,7 @@
           callback: async ({ credential }) => {
             if (!credential) return toast('Tidak ada token dari Google');
             toast('Memverifikasi akun Google…');
-            try { await window.Server.masukGoogle(credential); location.href = 'dashboard.html'; }
+            try { await window.Server.masukGoogle(credential); location.href = 'app.html'; }
             catch (err) { toast(err.hasil?.pesan || err.message); }
           },
         });
@@ -721,7 +732,7 @@
   }
 
   /* ============================================================
-     ROUTER
+     ROUTER — dipanggil shell.js setiap rute berganti (SPA)
      ============================================================ */
   const HALAMAN = {
     auth: halamanAuth, beranda: halamanBeranda, nutrisi: halamanNutrisi, sesi: halamanSesi, ringkasan: halamanRingkasan,
@@ -729,11 +740,19 @@
     kalibrasi: halamanKalibrasi, perangkat: halamanPerangkat, profil: halamanProfil,
     bantuan: async () => { await window.App.siap; U.identitas(); },
   };
-  function mulai() {
-    const fn = HALAMAN[document.body.dataset.page];
-    if (!fn || window.App?.dialihkan) return;   // sedang dialihkan ke login
-    Promise.resolve(fn()).catch(e => console.error('[AsaWatch] halaman:', e));
+
+  /** Menjalankan controller halaman; mengembalikan Promise<fungsi pembersih|undefined>. */
+  window.Halaman = {
+    async jalankan(key) {
+      const fn = HALAMAN[key];
+      if (!fn) return undefined;
+      try { return await fn(); } catch (e) { console.error('[AsaWatch] halaman:', e); return undefined; }
+    },
+  };
+
+  // Halaman auth bukan bagian SPA: dijalankan langsung.
+  if (document.body.classList.contains('auth-page')) {
+    const mulai = () => window.Halaman.jalankan('auth');
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mulai); else mulai();
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mulai);
-  else mulai();
 })();

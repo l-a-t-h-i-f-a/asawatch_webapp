@@ -31,11 +31,11 @@ Mode pengembangan — padanan `--dart-define` di Flutter, dinyalakan lewat query
 
 | URL | Efek |
 | --- | --- |
-| `ui/dashboard.html?jamPalsu=1` | `JamPalsu` — tanpa perangkat; tombol jam ditekan dari halaman Perangkat |
+| `ui/app.html?jamPalsu=1` | `JamPalsu` — tanpa perangkat; tombol jam ditekan dari halaman Perangkat |
 | `?jadwalUji=1` | jadwal dimampatkan 60× (sesi penuh 2 menit); sesinya ditandai `sesi_uji` |
 | `?jadwalUji=1&faktor=12` | 12× — pakai ini dengan jam sungguhan (pengukuran butuh puluhan detik) |
 
-Uji cepat tanpa jam: `ui/dashboard.html?jamPalsu=1&jadwalUji=1` → Perangkat → Cari Jam → Foto
+Uji cepat tanpa jam: `ui/app.html?jamPalsu=1&jadwalUji=1` → Perangkat → Cari Jam → Foto
 Makanan → "Saya Sudah Selesai Makan" → sesi selesai sendiri dalam ±2 menit.
 
 ## Struktur
@@ -47,7 +47,9 @@ asawatch_webapp/
 ├── css/                  tokens (palet/font), main (kerangka), landing
 └── ui/
     ├── login.html register.html
-    ├── dashboard.html           Beranda tiga wajah: idle / sesi berjalan / sesi baru selesai
+    ├── app.html                 SATU halaman: semua tampilan sebagai <template data-rute>, router hash
+    ├── dashboard.html … bantuan.html   pengalih ke app.html#/<nama> (tautan lama tetap jalan)
+    ├── (rute) dashboard         Beranda tiga wajah: idle / sesi berjalan / sesi baru selesai
     ├── deteksi-makanan.html     kamera → draft; kartu hasil bisa dikoreksi; tombol "Selesai Makan"
     ├── sesi-berjalan.html       timeline 4 titik, dua pintu keluar (selesaikan / batalkan)
     ├── ringkasan-sesi.html?id=  satu angka satu tempat; kurva; tabel per titik
@@ -73,9 +75,15 @@ asawatch_webapp/
         └── pages.js          controller tiap halaman (router via <body data-page>)
 ```
 
-Urutan muat skrip di tiap halaman: `server-config → protokol → model → db → server → ble → sesi →
-komponen → kurva → shell → pages`. `shell.js` merakit `window.App` (DB → jam → controller) dan
-halaman menunggu `App.siap`.
+**Aplikasi satu halaman**: `ui/app.html` memuat semua tampilan sebagai `<template data-rute>`, dan
+`shell.js` menyalinnya ke `#content` sesuai rute `#/<nama>?query` (`App.ke('riwayat.html?x')`,
+`App.q()`). Alasannya bukan gaya: **koneksi Web Bluetooth terikat pada dokumen**, jadi berpindah
+halaman tidak boleh mengganti dokumen atau jam terputus. Berkas `ui/<nama>.html` lama hanya
+pengalih ke `app.html#/<nama>`. Login/register tetap dokumen terpisah. Setiap controller halaman
+mengembalikan fungsi pembersih (langganan, timer, kamera) yang dipanggil router saat rute berganti.
+
+Urutan muat skrip: `server-config → protokol → model → db → server → ble → sesi → komponen → kurva →
+shell → pages`. `shell.js` merakit `window.App` (DB → jam → controller) dan halaman menunggu `App.siap`.
 
 ## Aturan yang dibawa dari Flutter (jangan dilanggar)
 

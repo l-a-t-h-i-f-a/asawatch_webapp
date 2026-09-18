@@ -1,15 +1,12 @@
 // Service worker AsaWatch. Semua path relatif terhadap scope pendaftaran
 // (`self.registration.scope`), supaya pemasangan di sub-path tetap bekerja.
-const CACHE_NAME = 'asawatch-v9';
+const CACHE_NAME = 'asawatch-v10';
 const AKAR = new URL('./', self.registration.scope).pathname;
 const r = (p) => AKAR + p;
 
 const ASSETS_TO_CACHE = [
   '', 'index.html', 'css/tokens.css', 'css/landing.css', 'css/main.css', 'ui/css/ui.css',
-  'ui/index.html', 'ui/login.html', 'ui/register.html', 'ui/dashboard.html', 'ui/deteksi-makanan.html',
-  'ui/sesi-berjalan.html', 'ui/ringkasan-sesi.html', 'ui/riwayat.html', 'ui/analisis.html',
-  'ui/gula-darah.html', 'ui/detak-jantung.html', 'ui/tensi.html', 'ui/pindai-kesehatan.html',
-  'ui/kalibrasi-tensi.html', 'ui/perangkat.html', 'ui/profil.html', 'ui/bantuan.html',
+  'ui/index.html', 'ui/login.html', 'ui/register.html', 'ui/app.html',
   'ui/js/protokol.js', 'ui/js/model.js', 'ui/js/db.js', 'ui/js/server.js', 'ui/js/ble.js',
   'ui/js/sesi.js', 'ui/js/komponen.js', 'ui/js/kurva.js', 'ui/js/shell.js', 'ui/js/pages.js',
   'assets/logo/icon-32.png', 'assets/logo/icon-192.png', 'assets/logo/logo-mark.png', 'assets/logo/logo-asawatch.png',

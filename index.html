@@ -347,7 +347,7 @@
   // sudah pernah masuk di perangkat ini -> tombol langsung ke dashboard
   if (localStorage.getItem('aw_token')) {
     document.querySelectorAll('[data-mulai]').forEach(a => {
-      a.href = 'ui/dashboard.html';
+      a.href = 'ui/app.html';
       if (a.classList.contains('btn')) a.firstChild.textContent = 'Buka Dashboard ';
     });
     const masuk = document.getElementById('navMasuk');

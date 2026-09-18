@@ -26,7 +26,7 @@ python3 -m http.server 8080          # lalu buka http://localhost:8080/ui/
 node --check ui/js/*.js sw.js        # cek sintaks
 ```
 
-Uji alur tanpa jam: `ui/dashboard.html?jamPalsu=1&jadwalUji=1` (sesi penuh 2 menit). Dengan jam
+Uji alur tanpa jam: `ui/app.html?jamPalsu=1&jadwalUji=1` (sesi penuh 2 menit). Dengan jam
 sungguhan pakai `&faktor=12`. Untuk uji headless: satu proses Chrome per profil — profil yang
 dibunuh di tengah jalan meninggalkan IndexedDB terkunci, jadi jalankan banyak halaman lewat CDP
 dalam satu sesi, bukan `--dump-dom` berulang.
@@ -34,7 +34,7 @@ dalam satu sesi, bukan `--dump-dom` berulang.
 ## Arsitektur
 
 ```
-pages.js (controller per halaman, router <body data-page>)
+pages.js (controller per rute; shell.js router hash #/<nama>, satu dokumen)
    │  membaca satu controller lewat App.siap, menggambar ulang pada event 'ubah'
    ▼
 sesi.js  SesiMakanController ── ble.js (JamAsli | JamPalsu) ── protokol.js (byte ↔ JS murni)

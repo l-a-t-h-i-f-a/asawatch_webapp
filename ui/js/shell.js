@@ -120,7 +120,7 @@
 <nav class="bottom-nav" id="bottomNav">
   ${NAV.map(n => n.key === 'tengah'
       ? `<a href="deteksi-makanan.html" id="navTengah" class="nav-tengah"><span class="bulat">${ic('i-camera')}</span><span class="lbl">Foto</span></a>`
-      : `<a href="${n.href}" class="${n.key === active ? 'active' : ''}">${ic(n.icon)}<span>${n.label}</span></a>`).join('')}
+      : `<a href="${n.href}" data-nav="${n.key}" class="${n.key === active ? 'active' : ''}">${ic(n.icon)}<span>${n.label}</span></a>`).join('')}
 </nav>`;
   }
 
@@ -260,10 +260,97 @@
     return App;
   }
 
+  /* ============================================================
+     ROUTER SPA — satu dokumen, supaya koneksi GATT jam tidak putus tiap
+     pindah halaman (Web Bluetooth mengikat koneksi ke dokumen).
+     Rute: #/<nama>[?query]; <nama> = nama berkas lama tanpa .html.
+     ============================================================ */
+  const RUTE = {
+    'dashboard': { page: 'beranda', nav: 'beranda' },
+    'deteksi-makanan': { page: 'nutrisi', nav: 'tengah' },
+    'sesi-berjalan': { page: 'sesi', nav: 'tengah' },
+    'ringkasan-sesi': { page: 'ringkasan', nav: 'riwayat' },
+    'riwayat': { page: 'riwayat', nav: 'riwayat' },
+    'analisis': { page: 'analisis', nav: 'analisis' },
+    'gula-darah': { page: 'kesehatan', metric: 'gula', nav: 'analisis' },
+    'detak-jantung': { page: 'kesehatan', metric: 'detak', nav: 'analisis' },
+    'tensi': { page: 'kesehatan', metric: 'tensi', nav: 'analisis' },
+    'pindai-kesehatan': { page: 'pindai', nav: 'pindai' },
+    'kalibrasi-tensi': { page: 'kalibrasi', nav: 'kalibrasi' },
+    'perangkat': { page: 'perangkat', nav: 'perangkat' },
+    'profil': { page: 'profil', nav: 'profil' },
+    'bantuan': { page: 'bantuan', nav: 'bantuan' },
+  };
+  let _bersihkanHalaman = null;
+  let _ruteId = 0;
+
+  /** 'riwayat.html?x=1' | '#/riwayat?x=1' | 'riwayat' → { nama, query } */
+  function uraiTujuan(url) {
+    let u = String(url || '').trim();
+    if (u.startsWith('#')) u = u.slice(1);
+    if (u.startsWith('/')) u = u.slice(1);
+    const [jalur, qs = ''] = u.split('?');
+    const nama = jalur.replace(/\.html$/, '').split('/').pop() || 'dashboard';
+    return { nama: RUTE[nama] ? nama : 'dashboard', query: qs };
+  }
+
+  App.ke = (url) => { const { nama, query } = uraiTujuan(url); location.hash = '#/' + nama + (query ? '?' + query : ''); };
+  App.q = () => new URLSearchParams(uraiTujuan(location.hash).query);
+  App.ruteAktif = () => uraiTujuan(location.hash).nama;
+
+  async function rute() {
+    const { nama } = uraiTujuan(location.hash);
+    if (!location.hash || location.hash === '#' || location.hash === '#/') { location.replace('#/dashboard'); return; }
+    const r = RUTE[nama];
+    const tpl = document.querySelector(`template[data-rute="${nama}"]`);
+    if (!r || !tpl) { App.ke('dashboard'); return; }
+
+    // Bersihkan halaman sebelumnya (langganan, timer, kamera) sebelum menggambar yang baru.
+    try { _bersihkanHalaman?.(); } catch (e) { console.warn(e); }
+    _bersihkanHalaman = null;
+
+    const body = document.body;
+    body.dataset.page = r.page; body.dataset.nav = r.nav;
+    if (r.metric) body.dataset.metric = r.metric; else delete body.dataset.metric;
+    const content = document.getElementById('content');
+    content.replaceChildren(tpl.content.cloneNode(true));
+    content.scrollTop = 0; window.scrollTo(0, 0);
+    document.getElementById('sidebar')?.classList.remove('open');
+    tandaiNavAktif(r.nav);
+    const judul = content.querySelector('.page-head h2, .page-head .title');
+    const tt = document.getElementById('topTitle'); if (tt) tt.textContent = judul ? judul.textContent.trim() : 'AsaWatch';
+    document.title = (judul ? judul.textContent.trim() : 'AsaWatch') + ' · AsaWatch';
+
+    // Controller menunggu App.siap; kalau pengguna sudah pindah lagi sebelum
+    // ia selesai memasang, pembersihnya langsung dipanggil, bukan disimpan.
+    const id = ++_ruteId;
+    window.Halaman.jalankan(r.page).then(bersih => {
+      if (typeof bersih !== 'function') return;
+      if (id !== _ruteId) { try { bersih(); } catch (e) { console.warn(e); } return; }
+      _bersihkanHalaman = bersih;
+    });
+    UI.identitas();
+  }
+
+  function tandaiNavAktif(nav) {
+    document.querySelectorAll('.side-nav a, .bottom-nav a').forEach(a => a.classList.toggle('active', a.dataset.nav === nav && nav !== 'tengah'));
+  }
+
+  /** Tautan *.html internal dan [data-ke] dialihkan ke router; login/register tetap dokumen terpisah. */
+  function cegatTautan(e) {
+    const el = e.target.closest('a[href], [data-ke]');
+    if (!el || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    const target = el.dataset.ke || el.getAttribute('href') || '';
+    if (/^(https?:|mailto:|tel:|#$)/.test(target) || target === '') return;
+    if (/^(login|register|app)\.html/.test(target) || target.startsWith('../')) return;
+    if (!/^(#\/|[a-z-]+\.html)/.test(target)) return;
+    e.preventDefault();
+    App.ke(target);
+  }
+
   /* ---------- pasang kerangka ---------- */
   function mount() {
     const body = document.body;
-    const active = body.dataset.nav || body.dataset.page || '';
     body.insertAdjacentHTML('afterbegin', SPRITE);
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js').catch(() => { });
 
@@ -276,29 +363,25 @@
 
     if (!localStorage.getItem('aw_token')) { App.dialihkan = true; location.replace('login.html'); return; }
 
-    const inner = document.getElementById('page-content');
     body.insertAdjacentHTML('beforeend', `
 <div class="app">
-  ${sidebar(active)}
+  ${sidebar('')}
   <div class="main">
     ${topbar()}
     <div id="spanduk"></div>
     <div class="content" id="content"></div>
   </div>
 </div>
-${bottomNav(active)}
+${bottomNav('')}
 <div id="toast" class="toast"></div>`);
-    if (inner) document.getElementById('content').append(...inner.childNodes);
-    inner?.remove();
     UI.identitas();
-    const judul = document.querySelector('.page-head h2, .page-head .title');
-    const tt = document.getElementById('topTitle'); if (tt && judul) tt.textContent = judul.textContent.trim();
 
     document.getElementById('hamburger')?.addEventListener('click', e => { e.stopPropagation(); document.getElementById('sidebar')?.classList.toggle('open'); });
     document.addEventListener('click', e => {
       const sb = document.getElementById('sidebar');
       if (sb?.classList.contains('open') && !sb.contains(e.target)) sb.classList.remove('open');
     });
+    document.addEventListener('click', cegatTautan);
     document.getElementById('btnSync')?.addEventListener('click', async () => {
       UI.toast('Menyinkronkan…');
       await App.ctl?.kirimRiwayatKeServer();
@@ -313,6 +396,8 @@ ${bottomNav(active)}
     }).catch(() => { /* offline bukan berarti sesi berakhir; 401 ditangani penjaga */ });
 
     rakit().then(_siapOk, (e) => { console.error('[AsaWatch] Gagal merakit aplikasi:', e); _siapGagal(e); });
+    window.addEventListener('hashchange', rute);
+    rute();
   }
 
   window.UI = UI;
